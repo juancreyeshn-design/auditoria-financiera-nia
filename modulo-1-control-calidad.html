@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 1 · Sistema de Control de Calidad | Auditoría Financiera NIA</title>
+<style>
+  :root{
+    --azul-oscuro:#0b3d63;
+    --azul:#124a76;
+    --azul-claro:#e8f1f8;
+    --dorado:#d4a017;
+    --dorado-claro:#f7e7c1;
+    --texto:#1c2b36;
+    --texto-suave:#5a6b78;
+    --borde:#dbe4ec;
+    --fondo:#f4f7fa;
+    --verde:#2e7d4f;
+    --rojo:#b3261e;
+    --blanco:#ffffff;
+    --radio:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--azul-oscuro),var(--azul));
+    color:#fff;
+    padding:28px 20px 22px;
+  }
+  .header-inner{max-width:960px;margin:0 auto;}
+  .breadcrumb{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--dorado-claro);
+    margin-bottom:8px;
+  }
+  h1{margin:0 0 6px;font-size:1.55rem;}
+  .subt{color:#cfe1f0;font-size:.95rem;margin:0;}
+  .badge-fase{
+    display:inline-block;
+    background:var(--dorado);
+    color:#3a2c00;
+    font-weight:700;
+    font-size:.72rem;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:.03em;
+  }
+  main{max-width:960px;margin:0 auto;padding:22px 20px 60px;}
+
+  .progreso-wrap{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    padding:14px 18px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 1px 3px rgba(11,61,99,.06);
+  }
+  .progreso-bar-bg{flex:1;height:10px;background:var(--azul-claro);border-radius:6px;overflow:hidden;}
+  .progreso-bar-fg{height:100%;width:0%;background:var(--dorado);transition:width .3s ease;}
+  #progreso-txt{font-size:.82rem;color:var(--texto-suave);white-space:nowrap;}
+
+  section.bloque{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,61,99,.05);
+  }
+  .bloque-titulo{
+    padding:16px 20px;
+    font-weight:700;
+    color:var(--azul-oscuro);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--borde);
+    background:var(--azul-claro);
+  }
+  .bloque-cuerpo{padding:18px 20px;}
+  .fuente-nota{
+    font-size:.78rem;
+    color:var(--texto-suave);
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .elemento{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .elemento-cabecera{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:#fbfcfe;
+    user-select:none;
+  }
+  .elemento-cabecera:hover{background:var(--azul-claro);}
+  .elemento-letra{
+    width:28px;height:28px;flex:0 0 28px;
+    background:var(--azul-oscuro);color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;
+  }
+  .elemento-nombre{font-weight:600;flex:1;font-size:.95rem;}
+  .elemento-paginas{font-size:.75rem;color:var(--texto-suave);white-space:nowrap;}
+  .chev{transition:transform .2s ease;color:var(--texto-suave);}
+  .elemento.abierto .chev{transform:rotate(90deg);}
+  .elemento-cuerpo{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    padding:0 16px;
+    font-size:.9rem;
+  }
+  .elemento.abierto .elemento-cuerpo{padding:4px 16px 16px;}
+  .elemento-cuerpo ul{margin:8px 0;padding-left:20px;}
+  .elemento-cuerpo li{margin-bottom:6px;}
+  .cita{color:var(--texto-suave);font-size:.8rem;}
+
+  label.chk{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px dashed var(--borde);
+    font-size:.92rem;
+    cursor:pointer;
+  }
+  label.chk:last-child{border-bottom:none;}
+  label.chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--dorado);flex:0 0 16px;}
+
+  .caja-practica{
+    background:var(--dorado-claro);
+    border:1px solid #ecd48a;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.9rem;
+  }
+  .caja-practica strong{color:#5a4300;}
+
+  .quiz-pregunta{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .quiz-pregunta p.enunciado{font-weight:600;margin:0 0 10px;font-size:.93rem;}
+  .quiz-opciones label{
+    display:block;
+    padding:8px 10px;
+    border:1px solid var(--borde);
+    border-radius:6px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .quiz-opciones label:hover{border-color:var(--azul);}
+  .quiz-opciones input{margin-right:8px;}
+  .quiz-feedback{
+    display:none;
+    margin-top:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  .quiz-feedback.ok{display:block;background:#e6f4ea;color:var(--verde);}
+  .quiz-feedback.mal{display:block;background:#fbeceb;color:var(--rojo);}
+
+  button.btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    font-size:.88rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.btn:hover{background:var(--azul);}
+  button.btn.secundario{
+    background:transparent;
+    color:var(--azul-oscuro);
+    border:1px solid var(--azul-oscuro);
+  }
+  #quiz-resultado{
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:600;
+    display:none;
+  }
+
+  .nav-fases{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--borde);
+    font-size:.85rem;
+    color:var(--texto-suave);
+  }
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--texto-suave);
+    padding:20px;
+  }
+  @media(max-width:600px){
+    .elemento-paginas{display:none;}
+    h1{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">Auditoría Financiera bajo NIA · COHPUCP</div>
+    <span class="badge-fase">Fase 1 de 6</span>
+    <h1>Sistema de Control de Calidad</h1>
+    <p class="subt">Fundamento normativo previo a la ejecución de cualquier encargo de auditoría (NICC 1, complementada por NIA 200, 210 y 230).</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="progreso-wrap">
+    <div class="progreso-bar-bg"><div class="progreso-bar-fg" id="progreso-bar"></div></div>
+    <div id="progreso-txt">0 % completado</div>
+  </div>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Resumen normativo</div>
+    <div class="bloque-cuerpo">
+      <p>El marco de referencia de este módulo es la <strong>Norma Internacional de Control de Calidad (NICC 1)</strong>, complementada con la <strong>NIA 200</strong> (objetivos generales del auditor independiente), la <strong>NIA 210</strong> (términos del encargo) y la <strong>NIA 230</strong> (documentación de auditoría). Se incorporan además referencias a las <strong>Secciones 290 y 291 del Código de Ética del IESBA</strong> en materia de independencia, y a las normas <strong>IES 7</strong> e <strong>IES 8</strong> de la IFAC sobre educación profesional continua y competencia de los auditores.</p>
+      <p><strong>Objetivo del sistema (NICC 1):</strong> la firma debe establecer y mantener un sistema de control de calidad que le proporcione una seguridad razonable de que: (i) la firma y su personal cumplen las normas profesionales y los requisitos legales y reglamentarios aplicables, y (ii) los informes emitidos por la firma o los socios del encargo son apropiados en función de las circunstancias.</p>
+      <p class="fuente-nota">Fuente: "1 Guía Sistema de Control de Calidad para Firmas de Contadores Públicos" (Pág. 3 y ss.). Nota: el texto de la guía no cita números de párrafo específicos de la NICC 1 ni menciona la NIGC 1 (Norma Internacional de Gestión de la Calidad); las referencias mostradas son las que aparecen literalmente en el documento.</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Los 6 elementos del Control de Calidad (NICC 1)</div>
+    <div class="bloque-cuerpo" id="lista-elementos">
+
+      <div class="elemento" data-id="a">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">a</div>
+          <div class="elemento-nombre">Responsabilidad de los líderes de la firma sobre la calidad</div>
+          <div class="elemento-paginas">Pág. 3–6</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <p>Los líderes son los principales responsables de promover una cultura interna donde se reconozca que la calidad es esencial en la ejecución de los encargos, por encima de consideraciones puramente comerciales.</p>
+          <p class="cita">Guía SCC, pág. 3–6, sección "Responsabilidad de los líderes de la Firma…".</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="b">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">b</div>
+          <div class="elemento-nombre">Requisitos éticos relevantes</div>
+          <div class="elemento-paginas">Pág. 7–17</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <p>Exige políticas y procedimientos para asegurar el cumplimiento de los principios éticos fundamentales. Desarrolla tres aspectos clave:</p>
+          <ul>
+            <li><strong>Independencia:</strong> seguridad razonable de mantenerla, evaluando amenazas (interés propio, autorrevisión, abogacía, familiaridad, intimidación); confirmación escrita de independencia al menos una vez al año (Pág. 8); cumplimiento de las Secciones 290 y 291 del Código del IESBA (Pág. 20); rotación obligatoria con periodo de enfriamiento generalmente de 2 años para entidades listadas (Pág. 17).</li>
+            <li><strong>Conflicto de intereses:</strong> responsabilidades para identificar, documentar y tratar conflictos de intereses.</li>
+            <li><strong>Confidencialidad:</strong> protección y custodia de la información del cliente obtenida durante el encargo (Pág. 16–17).</li>
+          </ul>
+          <p class="cita">Guía SCC, pág. 7–17.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="c">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">c</div>
+          <div class="elemento-nombre">Aceptación y retención de clientes y trabajos específicos</div>
+          <div class="elemento-paginas">Pág. 18–24</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Evaluar la capacidad, competencia y recursos de la firma, el cumplimiento ético y la integridad del cliente antes de aceptar el encargo.</li>
+            <li>Evitar clientes vinculados a condenas, sanciones, sospechas de actos ilícitos o fraude, o investigaciones en curso.</li>
+            <li>Consultar listas de control (ej. Lista Clinton / SDN list) y comunicarse con el auditor anterior antes de proponerse a un nuevo cliente.</li>
+            <li>Evaluación formal para clientes recurrentes y protocolos para la renuncia al encargo si surgen causas justificadas.</li>
+          </ul>
+          <p class="cita">Guía SCC, pág. 18–24.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="d">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">d</div>
+          <div class="elemento-nombre">Recursos humanos</div>
+          <div class="elemento-paginas">Pág. 24–33</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Garantizar personal suficiente con competencia, capacidades y compromiso ético.</li>
+            <li>Cumplir con los requerimientos de desarrollo profesional continuo (norma IES 7) y de competencia (IES 8).</li>
+            <li>Criterios para asignación de equipos basados en formación, conocimiento de la industria y experiencia.</li>
+            <li>Evaluación periódica del desempeño e implementación de medidas disciplinarias o correctivas.</li>
+          </ul>
+          <p class="cita">Guía SCC, pág. 24–33.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="e">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">e</div>
+          <div class="elemento-nombre">Ejecución de los compromisos (desempeño del trabajo)</div>
+          <div class="elemento-paginas">Pág. 33–45</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Promover calidad uniforme mediante manuales, plantillas estándar y políticas de planificación y supervisión.</li>
+            <li>La guía define la metodología de auditoría en cuatro fases: <strong>Planeación, Entendimiento de procesos, Procedimientos sustantivos y Cierre</strong> — el hilo conductor de los módulos 2 a 6 de este curso.</li>
+            <li>Cumplimiento de la documentación de auditoría conforme a la NIA 230.</li>
+            <li>Conformación de equipos multidisciplinarios asignados todo el año, incluyendo especialistas cuando corresponda.</li>
+          </ul>
+          <p class="cita">Guía SCC, pág. 33–45.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="f">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">f</div>
+          <div class="elemento-nombre">Monitoreo</div>
+          <div class="elemento-paginas">Pág. 50–56</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Proceso de vigilancia diseñado para dar seguridad razonable de que las políticas del sistema de calidad son adecuadas y funcionan con eficacia.</li>
+            <li>Inspección cíclica de al menos un compromiso terminado por cada socio del trabajo (Pág. 50).</li>
+            <li>Procedimientos específicos del revisor de control de calidad en auditorías de estados financieros.</li>
+          </ul>
+          <p class="cita">Guía SCC, pág. 50–56.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Conexión con el expediente de auditoría (papeles de trabajo)</div>
+    <div class="bloque-cuerpo">
+      <div class="caja-practica">
+        <strong>Del marco normativo a la práctica:</strong> en un expediente de auditoría bajo NIA, los elementos b) y c) de este módulo se documentan formalmente en cédulas específicas del Archivo Corriente y Permanente: carta/términos del encargo (NIA 210), memorando de planificación, evaluación de materialidad y riesgo, confirmación anual de independencia, y la cédula de control de calidad del revisor. Estas cédulas son el soporte documental que evidencia el cumplimiento de la NICC 1 en cada encargo.
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Autoevaluación</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.88rem;color:var(--texto-suave);margin-top:0;">Preguntas basadas en el cuestionario de evaluación del compromiso de los líderes con la calidad y en la guía de indagación para aceptación de nuevos clientes (Guía SCC, pág. 5–6 y 20–22).</p>
+
+      <div class="quiz-pregunta" data-correcta="c">
+        <p class="enunciado">1. Según la NICC 1, ¿quién es el principal responsable de promover una cultura interna orientada a la calidad dentro de la firma?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q1" value="a"> El revisor de control de calidad únicamente</label>
+          <label><input type="radio" name="q1" value="b"> El personal de reciente ingreso</label>
+          <label><input type="radio" name="q1" value="c"> Los líderes de la firma</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">2. ¿Con qué frecuencia mínima exige la guía la confirmación escrita de independencia del personal del encargo?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q2" value="a"> Cada vez que cambia el equipo</label>
+          <label><input type="radio" name="q2" value="b"> Al menos una vez al año</label>
+          <label><input type="radio" name="q2" value="c"> Solo al aceptar un cliente nuevo</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="a">
+        <p class="enunciado">3. Antes de proponerse a un cliente nuevo, la guía recomienda expresamente:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q3" value="a"> Consultar listas de control (ej. Lista Clinton/SDN) y comunicarse con el auditor anterior</label>
+          <label><input type="radio" name="q3" value="b"> Solicitar directamente los estados financieros auditados de los últimos 10 años</label>
+          <label><input type="radio" name="q3" value="c"> Omitir la indagación si el cliente es referido por un socio</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">4. La metodología de auditoría descrita en el elemento e) "Ejecución de los compromisos" se organiza en cuatro fases. ¿Cuáles son?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q4" value="a"> Aceptación, Control, Reporte, Archivo</label>
+          <label><input type="radio" name="q4" value="b"> Planeación, Entendimiento de procesos, Procedimientos sustantivos, Cierre</label>
+          <label><input type="radio" name="q4" value="c"> Independencia, Ética, Confidencialidad, Monitoreo</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="c">
+        <p class="enunciado">5. El monitoreo del sistema de control de calidad exige, como mínimo:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q5" value="a"> Una encuesta anual de satisfacción del cliente</label>
+          <label><input type="radio" name="q5" value="b"> Auditoría externa obligatoria cada 5 años</label>
+          <label><input type="radio" name="q5" value="c"> Inspección cíclica de al menos un compromiso terminado por cada socio del trabajo</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="btn" onclick="calificarQuiz()">Calificar autoevaluación</button>
+      <div id="quiz-resultado"></div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Checklist de repaso — Fase 1</div>
+    <div class="bloque-cuerpo" id="checklist">
+      <label class="chk"><input type="checkbox" data-item="1"> Identifico los seis elementos del sistema de control de calidad según la NICC 1.</label>
+      <label class="chk"><input type="checkbox" data-item="2"> Puedo explicar las cinco amenazas a la independencia (interés propio, autorrevisión, abogacía, familiaridad, intimidación).</label>
+      <label class="chk"><input type="checkbox" data-item="3"> Sé qué se debe indagar antes de aceptar un cliente nuevo (integridad, listas de control, contacto con auditor anterior).</label>
+      <label class="chk"><input type="checkbox" data-item="4"> Reconozco las cuatro fases de la metodología de auditoría que se desarrollan en los módulos 2 a 6.</label>
+      <label class="chk"><input type="checkbox" data-item="5"> Entiendo qué cédulas del expediente de auditoría documentan el cumplimiento de este módulo.</label>
+    </div>
+  </section>
+
+  <div class="nav-fases">
+    <a href="index.html" style="color:var(--azul);text-decoration:none;">◀ Inicio del curso</a>
+    <a href="modulo-2-actividades-preliminares.html" style="color:var(--azul);text-decoration:none;">Módulo 2 · Actividades Preliminares ▶</a>
+  </div>
+
+</main>
+
+<footer>
+  Auditoría Financiera bajo NIA — Recurso de capacitación COHPUCP · Contenido basado en guías de estudio propias (NICC 1 / NIA 200, 210, 230)
+</footer>
+
+<script>
+function toggleElemento(header){
+  const el = header.parentElement;
+  el.classList.toggle('abierto');
+  const cuerpo = el.querySelector('.elemento-cuerpo');
+  cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
+  guardarProgreso();
+}
+
+function calificarQuiz(){
+  const preguntas = document.querySelectorAll('.quiz-pregunta');
+  let correctas = 0;
+  preguntas.forEach(p=>{
+    const correcta = p.dataset.correcta;
+    const marcada = p.querySelector('input[type=radio]:checked');
+    const fb = p.querySelector('.quiz-feedback');
+    if(!marcada){
+      fb.className='quiz-feedback mal';
+      fb.textContent='No respondida.';
+      return;
+    }
+    if(marcada.value === correcta){
+      correctas++;
+      fb.className='quiz-feedback ok';
+      fb.textContent='Correcto.';
+    } else {
+      fb.className='quiz-feedback mal';
+      fb.textContent='Incorrecto. Revisa el elemento correspondiente arriba.';
+    }
+  });
+  const res = document.getElementById('quiz-resultado');
+  res.style.display='block';
+  res.style.background = correctas === preguntas.length ? '#e6f4ea' : '#fdf3e0';
+  res.style.color = correctas === preguntas.length ? '#2e7d4f' : '#5a4300';
+  res.textContent = `Resultado: ${correctas} de ${preguntas.length} correctas.`;
+  localStorage.setItem('afn_m1_quiz', correctas + '/' + preguntas.length);
+  guardarProgreso();
+}
+
+function guardarProgreso(){
+  const total = document.querySelectorAll('.checklist-item, #checklist input, .elemento').length;
+  const abiertos = document.querySelectorAll('.elemento.abierto').length;
+  const marcados = document.querySelectorAll('#checklist input:checked').length;
+  const quizHecho = localStorage.getItem('afn_m1_quiz') ? 1 : 0;
+  const totalPasos = 6 /*elementos*/ + 5 /*checklist*/ + 1 /*quiz*/;
+  const hechos = abiertos + marcados + quizHecho;
+  const pct = Math.round((hechos/totalPasos)*100);
+  document.getElementById('progreso-bar').style.width = pct+'%';
+  document.getElementById('progreso-txt').textContent = pct + ' % completado';
+  try{
+    const estado = {
+      abiertos: Array.from(document.querySelectorAll('.elemento.abierto')).map(e=>e.dataset.id),
+      checklist: Array.from(document.querySelectorAll('#checklist input:checked')).map(c=>c.dataset.item)
+    };
+    localStorage.setItem('afn_m1_estado', JSON.stringify(estado));
+  }catch(e){}
+}
+
+document.querySelectorAll('#checklist input').forEach(c=>c.addEventListener('change', guardarProgreso));
+
+// restaurar estado guardado (si existe)
+try{
+  const estado = JSON.parse(localStorage.getItem('afn_m1_estado') || 'null');
+  if(estado){
+    estado.checklist.forEach(id=>{
+      const el = document.querySelector(`#checklist input[data-item="${id}"]`);
+      if(el) el.checked = true;
+    });
+  }
+}catch(e){}
+
+guardarProgreso();
+</script>
+
+</body>
+</html>

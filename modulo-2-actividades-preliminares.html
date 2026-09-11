@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 2 · Actividades Preliminares | Auditoría Financiera NIA</title>
+<style>
+  :root{
+    --azul-oscuro:#0b3d63;
+    --azul:#124a76;
+    --azul-claro:#e8f1f8;
+    --dorado:#d4a017;
+    --dorado-claro:#f7e7c1;
+    --texto:#1c2b36;
+    --texto-suave:#5a6b78;
+    --borde:#dbe4ec;
+    --fondo:#f4f7fa;
+    --verde:#2e7d4f;
+    --rojo:#b3261e;
+    --blanco:#ffffff;
+    --radio:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--azul-oscuro),var(--azul));
+    color:#fff;
+    padding:28px 20px 22px;
+  }
+  .header-inner{max-width:960px;margin:0 auto;}
+  .breadcrumb{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--dorado-claro);
+    margin-bottom:8px;
+  }
+  h1{margin:0 0 6px;font-size:1.55rem;}
+  .subt{color:#cfe1f0;font-size:.95rem;margin:0;}
+  .badge-fase{
+    display:inline-block;
+    background:var(--dorado);
+    color:#3a2c00;
+    font-weight:700;
+    font-size:.72rem;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:.03em;
+  }
+  main{max-width:960px;margin:0 auto;padding:22px 20px 60px;}
+
+  .progreso-wrap{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    padding:14px 18px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 1px 3px rgba(11,61,99,.06);
+  }
+  .progreso-bar-bg{flex:1;height:10px;background:var(--azul-claro);border-radius:6px;overflow:hidden;}
+  .progreso-bar-fg{height:100%;width:0%;background:var(--dorado);transition:width .3s ease;}
+  #progreso-txt{font-size:.82rem;color:var(--texto-suave);white-space:nowrap;}
+
+  section.bloque{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,61,99,.05);
+  }
+  .bloque-titulo{
+    padding:16px 20px;
+    font-weight:700;
+    color:var(--azul-oscuro);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--borde);
+    background:var(--azul-claro);
+  }
+  .bloque-cuerpo{padding:18px 20px;}
+  .fuente-nota{
+    font-size:.78rem;
+    color:var(--texto-suave);
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .elemento{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .elemento-cabecera{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:#fbfcfe;
+    user-select:none;
+  }
+  .elemento-cabecera:hover{background:var(--azul-claro);}
+  .elemento-letra{
+    width:28px;height:28px;flex:0 0 28px;
+    background:var(--azul-oscuro);color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;
+  }
+  .elemento-nombre{font-weight:600;flex:1;font-size:.95rem;}
+  .elemento-paginas{font-size:.75rem;color:var(--texto-suave);white-space:nowrap;}
+  .chev{transition:transform .2s ease;color:var(--texto-suave);}
+  .elemento.abierto .chev{transform:rotate(90deg);}
+  .elemento-cuerpo{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    padding:0 16px;
+    font-size:.9rem;
+  }
+  .elemento.abierto .elemento-cuerpo{padding:4px 16px 16px;}
+  .elemento-cuerpo ul{margin:8px 0;padding-left:20px;}
+  .elemento-cuerpo li{margin-bottom:6px;}
+  .cita{color:var(--texto-suave);font-size:.8rem;}
+
+  label.chk{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px dashed var(--borde);
+    font-size:.92rem;
+    cursor:pointer;
+  }
+  label.chk:last-child{border-bottom:none;}
+  label.chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--dorado);flex:0 0 16px;}
+
+  .caja-practica{
+    background:var(--dorado-claro);
+    border:1px solid #ecd48a;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.9rem;
+  }
+  .caja-practica strong{color:#5a4300;}
+
+  .quiz-pregunta{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .quiz-pregunta p.enunciado{font-weight:600;margin:0 0 10px;font-size:.93rem;}
+  .quiz-opciones label{
+    display:block;
+    padding:8px 10px;
+    border:1px solid var(--borde);
+    border-radius:6px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .quiz-opciones label:hover{border-color:var(--azul);}
+  .quiz-opciones input{margin-right:8px;}
+  .quiz-feedback{
+    display:none;
+    margin-top:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  .quiz-feedback.ok{display:block;background:#e6f4ea;color:var(--verde);}
+  .quiz-feedback.mal{display:block;background:#fbeceb;color:var(--rojo);}
+
+  button.btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    font-size:.88rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.btn:hover{background:var(--azul);}
+  button.btn.secundario{
+    background:transparent;
+    color:var(--azul-oscuro);
+    border:1px solid var(--azul-oscuro);
+  }
+  #quiz-resultado{
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:600;
+    display:none;
+  }
+
+  .nav-fases{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--borde);
+    font-size:.85rem;
+    color:var(--texto-suave);
+  }
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--texto-suave);
+    padding:20px;
+  }
+  @media(max-width:600px){
+    .elemento-paginas{display:none;}
+    h1{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">Auditoría Financiera bajo NIA · COHPUCP</div>
+    <span class="badge-fase">Fase 2 de 6</span>
+    <h1>Actividades Preliminares</h1>
+    <p class="subt">Aceptación o continuidad del cliente, términos del encargo y requisitos éticos antes de iniciar la auditoría (NIA 300, NIA 200, NICC 1, NIA 220 e IESBA 290/291).</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="progreso-wrap">
+    <div class="progreso-bar-bg"><div class="progreso-bar-fg" id="progreso-bar"></div></div>
+    <div id="progreso-txt">0 % completado</div>
+  </div>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Resumen normativo</div>
+    <div class="bloque-cuerpo">
+      <p>Las actividades preliminares a la auditoría se apoyan en cinco referencias normativas: la <strong>NIA 300</strong> (planificación), la <strong>NIA 200</strong> (objetivos generales del auditor), la <strong>NICC 1</strong> (control de calidad), la <strong>NIA 220</strong> (establecimiento de los términos del encargo) y las <strong>Secciones 290 y 291 del Código de Ética del IESBA</strong> (independencia).</p>
+      <p><strong>Requerimiento NIA 300.13:</strong> antes de aceptar un encargo nuevo, la guía cita explícitamente este requerimiento, que exige la comunicación del auditor con el auditor predecesor para determinar si existen razones para no aceptar el encargo.</p>
+      <p><strong>NIA 220 — aceptación del encargo:</strong> el auditor debe aceptar o continuar un encargo solo cuando se haya acordado la base sobre la cual se va a realizar, y esos términos deben plasmarse en una carta contrato o acuerdo escrito.</p>
+      <p class="fuente-nota">Fuente: "2 Guia Actividades Preliminares.pdf". Referencias de página detalladas en cada elemento a continuación.</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Las 5 referencias normativas de esta fase</div>
+    <div class="bloque-cuerpo" id="lista-elementos">
+
+      <div class="elemento" data-id="a">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">a</div>
+          <div class="elemento-nombre">NIA 300 — Planificación de la auditoría</div>
+          <div class="elemento-paginas">Pág. 1, 4–5</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <p>Establece que la planificación implica definir la estrategia global y el plan de auditoría para lograr una auditoría eficaz.</p>
+          <p><strong>Requerimiento NIA 300.13</strong> (citado literalmente en la guía, sección "Considerar línea de investigación"): exige la comunicación con el auditor predecesor para determinar si existen razones para no aceptar el encargo.</p>
+          <p class="cita">Guía Actividades Preliminares, pág. 1 y 4–5.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="b">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">b</div>
+          <div class="elemento-nombre">NIA 200 — Objetivos generales del auditor</div>
+          <div class="elemento-paginas">Pág. 1</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <p>En la sección "Objetivos generales del auditor", el documento cita que en la ejecución de la auditoría los objetivos del auditor son, entre otros, obtener una seguridad razonable de que los estados financieros están libres de incorrección material.</p>
+          <p class="cita">Guía Actividades Preliminares, pág. 1, sección "1. Objetivos generales del auditor".</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="c">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">c</div>
+          <div class="elemento-nombre">NICC 1 — Aceptación, continuidad y requisitos éticos</div>
+          <div class="elemento-paginas">Pág. 1–2, 6</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li><strong>Políticas de aceptación y continuidad</strong> (sección "2.1 Aceptación y retención de las relaciones profesionales con clientes", pág. 1–2): fundamenta las políticas y procedimientos que la firma debe aplicar antes de aceptar o continuar una relación con un cliente.</li>
+            <li><strong>Requerimientos éticos</strong> (sección "2.3 Requisitos éticos relevantes", pág. 6): fundamenta las políticas para dar seguridad razonable del cumplimiento de los principios de independencia, conflicto de intereses y confidencialidad.</li>
+          </ul>
+          <p class="cita">Guía Actividades Preliminares, pág. 1–2 y 6.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="d">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">d</div>
+          <div class="elemento-nombre">NIA 220 — Establecimiento de los términos del encargo</div>
+          <div class="elemento-paginas">Pág. 5</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <p>El documento cita literalmente a la NIA 220 (sección "2.2 Establecimiento de los términos del encargo", pág. 5): el auditor debe aceptar o continuar un encargo solo cuando se haya acordado la base sobre la cual se va a realizar.</p>
+          <p>Los términos deben plasmarse en una carta contrato o acuerdo escrito que incluya: objetivo y alcance de la auditoría, responsabilidades del auditor, responsabilidades de la dirección, marco de información financiera aplicable, y referencia a la forma y contenido esperados de los informes a emitir.</p>
+          <p class="cita">Guía Actividades Preliminares, pág. 5.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="e">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">e</div>
+          <div class="elemento-nombre">Código del IESBA — Secciones 290 y 291 (independencia)</div>
+          <div class="elemento-paginas">Pág. 6–10</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <p>Citado en el marco de independencia (sección "2.3 Requisitos éticos relevantes", pág. 6–8) para la evaluación de las cinco categorías de amenazas: <strong>interés propio, autorrevisión, abogacía, familiaridad e intimidación</strong>, y la aplicación de salvaguardas o rotación.</p>
+          <p>Para <strong>entidades listadas</strong> (aquellas cuyos valores, acciones o títulos de deuda cotizan en una bolsa de valores reconocida), exige que la información solo se use para el fin que se obtuvo, y fija la rotación del socio/revisor con un periodo de enfriamiento de generalmente 2 años (pág. 8–10).</p>
+          <p class="cita">Guía Actividades Preliminares, pág. 6–10.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Conexión con el expediente de auditoría (papeles de trabajo)</div>
+    <div class="bloque-cuerpo">
+      <div class="caja-practica">
+        <strong>Del marco normativo a la práctica:</strong> las actividades de esta fase se documentan en el Archivo Permanente y en las primeras cédulas del Archivo Corriente: carta de encargo/compromiso (NIA 220), memorando de aceptación o continuidad del cliente, cuestionario de indagación al auditor anterior, y confirmación de independencia del equipo. Estas cédulas son el soporte de que la aceptación del encargo cumplió con la NIA 300.13 y la NICC 1 antes de iniciar cualquier trabajo de campo.
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Autoevaluación</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.88rem;color:var(--texto-suave);margin-top:0;">Preguntas basadas en el cuestionario de indagación para la aceptación y continuidad de clientes, y en la guía de términos del encargo (Guía Actividades Preliminares, pág. 4–10).</p>
+
+      <div class="quiz-pregunta" data-correcta="a">
+        <p class="enunciado">1. Según el Requerimiento NIA 300.13, antes de aceptar un encargo nuevo el auditor debe comunicarse con:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q1" value="a"> El auditor predecesor</label>
+          <label><input type="radio" name="q1" value="b"> El regulador tributario (SAR)</label>
+          <label><input type="radio" name="q1" value="c"> La bolsa de valores</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">2. Las cinco categorías de amenazas a la independencia según el Código del IESBA son interés propio, autorrevisión, abogacía, familiaridad e:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q2" value="a"> Ineficiencia</label>
+          <label><input type="radio" name="q2" value="b"> Intimidación</label>
+          <label><input type="radio" name="q2" value="c"> Inexperiencia</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">3. Según la NIA 220, los términos del encargo deben plasmarse en:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q3" value="a"> Un memorando interno confidencial</label>
+          <label><input type="radio" name="q3" value="b"> Una carta contrato o acuerdo escrito</label>
+          <label><input type="radio" name="q3" value="c"> Una minuta de reunión verbal</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="a">
+        <p class="enunciado">4. La lista de verificación de fuentes de información del cliente, citada en la guía, incluye consultar:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q4" value="a"> La Lista Clinton (SDN list) contra el narcotráfico</label>
+          <label><input type="radio" name="q4" value="b"> El registro civil de nacimientos</label>
+          <label><input type="radio" name="q4" value="c"> El padrón electoral</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">5. Para entidades listadas, la rotación obligatoria del socio del compromiso o revisor de control de calidad tiene un periodo de enfriamiento de generalmente:</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q5" value="a"> 6 meses</label>
+          <label><input type="radio" name="q5" value="b"> 2 años</label>
+          <label><input type="radio" name="q5" value="c"> 10 años</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="btn" onclick="calificarQuiz()">Calificar autoevaluación</button>
+      <div id="quiz-resultado"></div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Checklist — 8 fuentes de información del cliente</div>
+    <div class="bloque-cuerpo" id="checklist">
+      <p style="font-size:.85rem;color:var(--texto-suave);margin-top:0;">Lista de verificación citada literalmente en la guía (sección "2.1 Aceptación y retención…", pág. 5) para investigar a un cliente nuevo o recurrente.</p>
+      <label class="chk"><input type="checkbox" data-item="1"> Consultar la Lista Clinton (SDN list) contra el narcotráfico.</label>
+      <label class="chk"><input type="checkbox" data-item="2"> Indagar con el auditor anterior (honorarios no pagados, desacuerdos, integridad, razones del cambio).</label>
+      <label class="chk"><input type="checkbox" data-item="3"> Revisar estados financieros de los últimos 2 años.</label>
+      <label class="chk"><input type="checkbox" data-item="4"> Revisar requerimientos de entidades de vigilancia y control (últimos 2 años).</label>
+      <label class="chk"><input type="checkbox" data-item="5"> Conocer opiniones y cartas de recomendación del anterior auditor (últimos 2 años).</label>
+      <label class="chk"><input type="checkbox" data-item="6"> Conocer demandas en contra de la compañía.</label>
+      <label class="chk"><input type="checkbox" data-item="7"> Obtener referencias comerciales y consultar centrales de riesgo.</label>
+      <label class="chk"><input type="checkbox" data-item="8"> Realizar investigación de antecedentes en línea.</label>
+    </div>
+  </section>
+
+  <div class="nav-fases">
+    <a href="modulo-1-control-calidad.html" style="color:var(--azul);text-decoration:none;">◀ Módulo 1 · Sistema de Control de Calidad</a>
+    <span>Módulo 3 · Evaluación de Procesos Clave (próximamente) ▶</span>
+  </div>
+
+</main>
+
+<footer>
+  Auditoría Financiera bajo NIA — Recurso de capacitación COHPUCP · Contenido basado en guías de estudio propias (NIA 300, 200, 220 / NICC 1 / IESBA 290–291)
+</footer>
+
+<script>
+function toggleElemento(header){
+  const el = header.parentElement;
+  el.classList.toggle('abierto');
+  const cuerpo = el.querySelector('.elemento-cuerpo');
+  cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
+  guardarProgreso();
+}
+
+function calificarQuiz(){
+  const preguntas = document.querySelectorAll('.quiz-pregunta');
+  let correctas = 0;
+  preguntas.forEach(p=>{
+    const correcta = p.dataset.correcta;
+    const marcada = p.querySelector('input[type=radio]:checked');
+    const fb = p.querySelector('.quiz-feedback');
+    if(!marcada){
+      fb.className='quiz-feedback mal';
+      fb.textContent='No respondida.';
+      return;
+    }
+    if(marcada.value === correcta){
+      correctas++;
+      fb.className='quiz-feedback ok';
+      fb.textContent='Correcto.';
+    } else {
+      fb.className='quiz-feedback mal';
+      fb.textContent='Incorrecto. Revisa el elemento correspondiente arriba.';
+    }
+  });
+  const res = document.getElementById('quiz-resultado');
+  res.style.display='block';
+  res.style.background = correctas === preguntas.length ? '#e6f4ea' : '#fdf3e0';
+  res.style.color = correctas === preguntas.length ? '#2e7d4f' : '#5a4300';
+  res.textContent = `Resultado: ${correctas} de ${preguntas.length} correctas.`;
+  localStorage.setItem('afn_m2_quiz', correctas + '/' + preguntas.length);
+  guardarProgreso();
+}
+
+function guardarProgreso(){
+  const abiertos = document.querySelectorAll('.elemento.abierto').length;
+  const marcados = document.querySelectorAll('#checklist input:checked').length;
+  const quizHecho = localStorage.getItem('afn_m2_quiz') ? 1 : 0;
+  const totalPasos = 5 /*elementos*/ + 8 /*checklist*/ + 1 /*quiz*/;
+  const hechos = abiertos + marcados + quizHecho;
+  const pct = Math.round((hechos/totalPasos)*100);
+  document.getElementById('progreso-bar').style.width = pct+'%';
+  document.getElementById('progreso-txt').textContent = pct + ' % completado';
+  try{
+    const estado = {
+      abiertos: Array.from(document.querySelectorAll('.elemento.abierto')).map(e=>e.dataset.id),
+      checklist: Array.from(document.querySelectorAll('#checklist input:checked')).map(c=>c.dataset.item)
+    };
+    localStorage.setItem('afn_m2_estado', JSON.stringify(estado));
+  }catch(e){}
+}
+
+document.querySelectorAll('#checklist input').forEach(c=>c.addEventListener('change', guardarProgreso));
+
+try{
+  const estado = JSON.parse(localStorage.getItem('afn_m2_estado') || 'null');
+  if(estado){
+    estado.checklist.forEach(id=>{
+      const el = document.querySelector(`#checklist input[data-item="${id}"]`);
+      if(el) el.checked = true;
+    });
+  }
+}catch(e){}
+
+guardarProgreso();
+</script>
+
+</body>
+</html>
