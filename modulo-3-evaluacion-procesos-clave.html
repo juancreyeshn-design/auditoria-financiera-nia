@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 3 · Evaluación de Procesos Clave | Auditoría Financiera NIA</title>
+<style>
+  :root{
+    --azul-oscuro:#0b3d63;
+    --azul:#124a76;
+    --azul-claro:#e8f1f8;
+    --dorado:#d4a017;
+    --dorado-claro:#f7e7c1;
+    --texto:#1c2b36;
+    --texto-suave:#5a6b78;
+    --borde:#dbe4ec;
+    --fondo:#f4f7fa;
+    --verde:#2e7d4f;
+    --rojo:#b3261e;
+    --blanco:#ffffff;
+    --radio:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--azul-oscuro),var(--azul));
+    color:#fff;
+    padding:28px 20px 22px;
+  }
+  .header-inner{max-width:960px;margin:0 auto;}
+  .breadcrumb{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--dorado-claro);
+    margin-bottom:8px;
+  }
+  h1{margin:0 0 6px;font-size:1.55rem;}
+  .subt{color:#cfe1f0;font-size:.95rem;margin:0;}
+  .badge-fase{
+    display:inline-block;
+    background:var(--dorado);
+    color:#3a2c00;
+    font-weight:700;
+    font-size:.72rem;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:.03em;
+  }
+  main{max-width:960px;margin:0 auto;padding:22px 20px 60px;}
+
+  .progreso-wrap{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    padding:14px 18px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 1px 3px rgba(11,61,99,.06);
+  }
+  .progreso-bar-bg{flex:1;height:10px;background:var(--azul-claro);border-radius:6px;overflow:hidden;}
+  .progreso-bar-fg{height:100%;width:0%;background:var(--dorado);transition:width .3s ease;}
+  #progreso-txt{font-size:.82rem;color:var(--texto-suave);white-space:nowrap;}
+
+  section.bloque{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,61,99,.05);
+  }
+  .bloque-titulo{
+    padding:16px 20px;
+    font-weight:700;
+    color:var(--azul-oscuro);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--borde);
+    background:var(--azul-claro);
+  }
+  .bloque-cuerpo{padding:18px 20px;}
+  .fuente-nota{
+    font-size:.78rem;
+    color:var(--texto-suave);
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .elemento{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .elemento-cabecera{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:#fbfcfe;
+    user-select:none;
+  }
+  .elemento-cabecera:hover{background:var(--azul-claro);}
+  .elemento-letra{
+    width:28px;height:28px;flex:0 0 28px;
+    background:var(--azul-oscuro);color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;
+  }
+  .elemento-nombre{font-weight:600;flex:1;font-size:.95rem;}
+  .elemento-paginas{font-size:.75rem;color:var(--texto-suave);white-space:nowrap;}
+  .chev{transition:transform .2s ease;color:var(--texto-suave);}
+  .elemento.abierto .chev{transform:rotate(90deg);}
+  .elemento-cuerpo{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    padding:0 16px;
+    font-size:.9rem;
+  }
+  .elemento.abierto .elemento-cuerpo{padding:4px 16px 16px;}
+  .elemento-cuerpo ul{margin:8px 0;padding-left:20px;}
+  .elemento-cuerpo li{margin-bottom:6px;}
+  .cita{color:var(--texto-suave);font-size:.8rem;}
+
+  label.chk{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px dashed var(--borde);
+    font-size:.92rem;
+    cursor:pointer;
+  }
+  label.chk:last-child{border-bottom:none;}
+  label.chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--dorado);flex:0 0 16px;}
+
+  .caja-practica{
+    background:var(--dorado-claro);
+    border:1px solid #ecd48a;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.9rem;
+  }
+  .caja-practica strong{color:#5a4300;}
+
+  .quiz-pregunta{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .quiz-pregunta p.enunciado{font-weight:600;margin:0 0 10px;font-size:.93rem;}
+  .quiz-opciones label{
+    display:block;
+    padding:8px 10px;
+    border:1px solid var(--borde);
+    border-radius:6px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .quiz-opciones label:hover{border-color:var(--azul);}
+  .quiz-opciones input{margin-right:8px;}
+  .quiz-feedback{
+    display:none;
+    margin-top:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  .quiz-feedback.ok{display:block;background:#e6f4ea;color:var(--verde);}
+  .quiz-feedback.mal{display:block;background:#fbeceb;color:var(--rojo);}
+
+  button.btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    font-size:.88rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.btn:hover{background:var(--azul);}
+  button.btn.secundario{
+    background:transparent;
+    color:var(--azul-oscuro);
+    border:1px solid var(--azul-oscuro);
+  }
+  #quiz-resultado{
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:600;
+    display:none;
+  }
+
+  .nav-fases{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--borde);
+    font-size:.85rem;
+    color:var(--texto-suave);
+  }
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--texto-suave);
+    padding:20px;
+  }
+  @media(max-width:600px){
+    .elemento-paginas{display:none;}
+    h1{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">Auditoría Financiera bajo NIA · COHPUCP</div>
+    <span class="badge-fase">Fase 3 de 6</span>
+    <h1>Evaluación de Procesos Clave y Control Interno</h1>
+    <p class="subt">Entendimiento y evaluación del diseño e implementación de los controles clave de la entidad (NIA 240, 265, 315, 330, 402, 500, 501 y 530).</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="progreso-wrap">
+    <div class="progreso-bar-bg"><div class="progreso-bar-fg" id="progreso-bar"></div></div>
+    <div id="progreso-txt">0 % completado</div>
+  </div>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Resumen normativo</div>
+    <div class="bloque-cuerpo">
+      <p>Este módulo desarrolla la evaluación de los procesos y controles clave de la entidad como fundamento para diseñar la respuesta del auditor a los riesgos identificados. El marco normativo combina la <strong>NIA 315</strong> (identificación y valoración de riesgos), la <strong>NIA 330</strong> (respuestas del auditor a los riesgos valorados), la <strong>NIA 265</strong> (comunicación de deficiencias de control interno), la <strong>NIA 240</strong> (fraude), la <strong>NIA 402</strong> (organizaciones de servicios), la <strong>NIA 500/501</strong> (evidencia de auditoría) y la <strong>NIA 530</strong> (muestreo de auditoría).</p>
+      <p><strong>Objetivo del módulo:</strong> obtener entendimiento del diseño e implementación de los controles clave de los ciclos operativos de la entidad y, cuando se planee confiar en su eficacia operativa, diseñar y ejecutar pruebas de controles que respalden la reducción del alcance de los procedimientos sustantivos.</p>
+      <p class="fuente-nota">Fuente: "3 GUIA CURSO EVALUACION DE PROCESOS CLAVE.pdf".</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Los 8 elementos normativos de la Evaluación de Procesos Clave</div>
+    <div class="bloque-cuerpo" id="lista-elementos">
+
+      <div class="elemento" data-id="a">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">a</div>
+          <div class="elemento-nombre">NIA 240 – Responsabilidades del auditor con respecto al fraude</div>
+          <div class="elemento-paginas">Pág. 5</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Se contempla como norma de referencia para evaluar cómo la entidad responde a los riesgos de fraude identificados durante la fase de planeación.</li>
+            <li>Establece el marco para evaluar los controles que la gerencia diseña e implementa sobre la prevención y detección de fraude en los procesos clave.</li>
+            <li>Fundamenta la identificación de controles automatizados y manuales destinados a mitigar la manipulación de transacciones o accesos no autorizados.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="b">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">b</div>
+          <div class="elemento-nombre">NIA 265 – Comunicación de deficiencias en el control interno</div>
+          <div class="elemento-paginas">Págs. 5, 12, 19</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Aclara que el estudio del control interno se realiza para diseñar procedimientos de auditoría adecuados, y no con el propósito de expresar una opinión sobre la efectividad del control interno.</li>
+            <li>Exige comunicar oportunamente y por escrito las deficiencias significativas en el control interno a los encargados del gobierno corporativo y a la gerencia.</li>
+            <li>Considera como indicadores fuertes de deficiencia significativa los errores detectados por el auditor no evitados por el control, el fraude de la gerencia o la re-expresión de estados financieros de ejercicios anteriores.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5, 12, 19.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="c">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">c</div>
+          <div class="elemento-nombre">NIA 315 – Identificación y valoración de riesgos de incorrección material</div>
+          <div class="elemento-paginas">Págs. 5, 12, 28, 32</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Advierte que las deficiencias en el ambiente de control pueden derivar en riesgos significativos a nivel general de los estados financieros.</li>
+            <li>Define que la evaluación del diseño de un control requiere determinar si, individualmente o en combinación, es capaz de prevenir, o detectar y corregir, errores materiales.</li>
+            <li>Precisa que obtener entendimiento de los controles mediante indagar o realizar pruebas de recorrido no es suficiente para probar su eficacia operativa, a menos que exista automatización con operación uniforme.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5, 12, 28, 32.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="d">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">d</div>
+          <div class="elemento-nombre">NIA 330 – Respuestas del auditor a los riesgos valorados</div>
+          <div class="elemento-paginas">Págs. 5, 7, 12, 18, 30, 33</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define que el objetivo del auditor es obtener evidencia suficiente y adecuada respecto a los riesgos evaluados mediante el diseño e implementación de respuestas apropiadas.</li>
+            <li>Señala que el auditor debe diseñar y realizar pruebas de controles cuando tenga planeado confiar en la eficacia operativa de los mismos para determinar el alcance de los procedimientos sustantivos.</li>
+            <li>Establece que ante un ambiente de control ineficaz, el auditor puede responder realizando más procedimientos al final del período o incrementando el alcance de los procedimientos sustantivos.</li>
+            <li>Contempla la evaluación y prueba de controles de compensación cuando se dependa de ellos para reducir el riesgo de control.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5, 7, 12, 18, 30, 33.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="e">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">e</div>
+          <div class="elemento-nombre">NIA 402 – Entidades que utilizan una organización de servicios</div>
+          <div class="elemento-paginas">Págs. 5, 29</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Se cita como norma de referencia para evaluar los controles en entidades que tercerizan operaciones que impactan la información financiera.</li>
+            <li>Exige verificar en el diseño e implementación si los controles contemplan las consideraciones del usuario respecto a los servicios prestados por la organización externa.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5, 29.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="f">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">f</div>
+          <div class="elemento-nombre">NIA 500 – Evidencia de auditoría</div>
+          <div class="elemento-paginas">Págs. 5, 29-30</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece que las pruebas de controles se diseñan para evaluar la eficacia operativa en la prevención o detección y corrección de errores materiales a nivel de aseveración.</li>
+            <li>Requiere identificar condiciones de desempeño adecuado (atributos) y condiciones de desviación al diseñar las pruebas sobre los controles.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5, 29-30.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="g">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">g</div>
+          <div class="elemento-nombre">NIA 501 – Consideraciones específicas para determinadas áreas</div>
+          <div class="elemento-paginas">Pág. 5</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Se vincula normativamente para respaldar la obtención de evidencia mediante la evaluación de controles en procesos clave que administran rubros específicos como inventarios o litigios.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 5.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="h">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">h</div>
+          <div class="elemento-nombre">NIA 530 – Muestreo de auditoría</div>
+          <div class="elemento-paginas">Págs. 37, 41</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Aplica para la selección de partidas y determinación de muestras en las pruebas de eficacia operativa de controles.</li>
+            <li>Exige evaluar los resultados de la muestra, el riesgo de muestreo, y determinar si se obtuvo una base razonable para concluir sobre la eficacia de la población probada.</li>
+          </ul>
+          <p class="cita">Guía Evaluación de Procesos Clave, pág. 37, 41.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Conexión con el expediente de auditoría (papeles de trabajo)</div>
+    <div class="bloque-cuerpo">
+      <div class="caja-practica">
+        <strong>Del marco normativo a la práctica:</strong> las actividades y hallazgos de este módulo se documentan principalmente en la Fase III (Controles / Evaluación de Procesos Clave) del expediente de auditoría. En el Archivo Permanente se archivan las narrativas de procesos, organigramas, flujogramas y las matrices del Modelo Integrado de Auditoría de Información Financiera (MIAIFA) / COSO 2013 que describen el diseño y arquitectura del control interno de los ciclos de la empresa. En el Archivo Corriente se integran las pruebas de recorrido (walkthroughs) para verificar la implementación, los papeles de trabajo de pruebas de eficacia operativa de controles (inspección, observación, reejecución), las cédulas de evaluación de controles de TI, segregación de funciones, autorizaciones y conciliaciones, y la comunicación formal por escrito de deficiencias significativas de control interno (Carta a la Gerencia / Gobierno Corporativo) según la NIA 265.
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Autoevaluación</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.88rem;color:var(--texto-suave);margin-top:0;">Preguntas basadas en la guía de Evaluación de Procesos Clave y Control Interno.</p>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">1. Según la NIA 265 citada en la guía, ¿cuál es el objetivo primordial del auditor al evaluar el control interno durante una auditoría de estados financieros?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q1" value="a"> Emitir una opinión formal e independiente sobre la efectividad del sistema de control interno.</label>
+          <label><input type="radio" name="q1" value="b"> Diseñar procedimientos de auditoría que sean adecuados en las circunstancias, y no expresar una opinión sobre el control interno.</label>
+          <label><input type="radio" name="q1" value="c"> Reemplazar los manuales de funciones y políticas contables fijados por la administración.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="a">
+        <p class="enunciado">2. De acuerdo con la NIA 315 y la NIA 330, ¿cuál de los siguientes hechos es considerado un fuerte indicador de una deficiencia significativa en el control interno?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q2" value="a"> El hallazgo de un error material por parte del auditor que no fue prevenido, detectado o corregido por el control interno del cliente.</label>
+          <label><input type="radio" name="q2" value="b"> La falta de rotación anual del personal operativo de la bodega.</label>
+          <label><input type="radio" name="q2" value="c"> La preparación oportuna de conciliaciones bancarias dentro de los primeros 5 días del mes.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">3. ¿Qué establece la NIA 315 en la guía respecto a la relación entre obtener un "entendimiento del control" y probar su "eficacia operativa"?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q3" value="a"> Que obtener el entendimiento mediante pruebas de recorrido es siempre suficiente para dar por probada la eficacia operativa de cualquier control.</label>
+          <label><input type="radio" name="q3" value="b"> Que obtener un entendimiento no es suficiente para probar la eficacia operativa, a menos que exista una automatización que garantice la operación uniforme del control.</label>
+          <label><input type="radio" name="q3" value="c"> Que no es necesario entender el control interno antes de aplicar pruebas de eficacia operativa.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">4. Cuando el auditor decide confiar en la eficacia operativa de un control automatizado que depende de los Controles Generales de TI (CGTI) y no ha sufrido modificaciones, ¿qué señalan las buenas prácticas del módulo?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q4" value="a"> Debe probar el control automatizado 40 veces al año sin importar los CGTI.</label>
+          <label><input type="radio" name="q4" value="b"> No es necesario aumentar el alcance de las pruebas del control automatizado si los Controles Generales de TI relevantes están funcionando eficazmente.</label>
+          <label><input type="radio" name="q4" value="c"> Debe calificar la opinión de auditoría con salvedades de forma automática.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">5. Conforme a la NIA 530 y la metodología de pruebas descrita en la guía, ¿cuál es el procedimiento a seguir si se identifican desviaciones durante las pruebas a los controles?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q5" value="a"> Ignorar las desviaciones si el monto de la transacción es pequeño.</label>
+          <label><input type="radio" name="q5" value="b"> Investigar la naturaleza y causa de las desviaciones e indagar específicamente para decidir si se requieren pruebas adicionales o si el riesgo debe cubrirse con procedimientos sustantivos.</label>
+          <label><input type="radio" name="q5" value="c"> Cancelar inmediatamente la auditoría y renunciar al encargo sin documentar el hallazgo.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="btn" onclick="calificarQuiz()">Calificar autoevaluación</button>
+      <div id="quiz-resultado"></div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Checklist de repaso — Fase 3</div>
+    <div class="bloque-cuerpo" id="checklist">
+      <label class="chk"><input type="checkbox" data-item="1"> Identifico los 8 elementos normativos que sustentan la evaluación de procesos clave (NIA 240, 265, 315, 330, 402, 500, 501, 530).</label>
+      <label class="chk"><input type="checkbox" data-item="2"> Distingo entre obtener entendimiento de un control y probar su eficacia operativa (NIA 315).</label>
+      <label class="chk"><input type="checkbox" data-item="3"> Sé cómo documentar y comunicar formalmente las deficiencias significativas de control interno (NIA 265).</label>
+      <label class="chk"><input type="checkbox" data-item="4"> Reconozco cómo responder ante desviaciones detectadas en pruebas de controles (NIA 330 / 530).</label>
+      <label class="chk"><input type="checkbox" data-item="5"> Entiendo qué cédulas del expediente de auditoría documentan el cumplimiento de este módulo.</label>
+    </div>
+  </section>
+
+  <div class="nav-fases">
+    <a href="modulo-2-actividades-preliminares.html" style="color:var(--azul);text-decoration:none;">◀ Módulo 2 · Actividades Preliminares</a>
+    <a href="modulo-4-procedimientos-sustantivos.html" style="color:var(--azul);text-decoration:none;">Módulo 4 · Procedimientos Sustantivos ▶</a>
+  </div>
+
+</main>
+
+<footer>
+  Auditoría Financiera bajo NIA — Recurso de capacitación COHPUCP · Contenido basado en guías de estudio propias (NIA 240, 265, 315, 330, 402, 500, 501, 530)
+</footer>
+
+<script>
+function toggleElemento(header){
+  const el = header.parentElement;
+  el.classList.toggle('abierto');
+  const cuerpo = el.querySelector('.elemento-cuerpo');
+  cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
+  guardarProgreso();
+}
+
+function calificarQuiz(){
+  const preguntas = document.querySelectorAll('.quiz-pregunta');
+  let correctas = 0;
+  preguntas.forEach(p=>{
+    const correcta = p.dataset.correcta;
+    const marcada = p.querySelector('input[type=radio]:checked');
+    const fb = p.querySelector('.quiz-feedback');
+    if(!marcada){
+      fb.className='quiz-feedback mal';
+      fb.textContent='No respondida.';
+      return;
+    }
+    if(marcada.value === correcta){
+      correctas++;
+      fb.className='quiz-feedback ok';
+      fb.textContent='Correcto.';
+    } else {
+      fb.className='quiz-feedback mal';
+      fb.textContent='Incorrecto. Revisa el elemento correspondiente arriba.';
+    }
+  });
+  const res = document.getElementById('quiz-resultado');
+  res.style.display='block';
+  res.style.background = correctas === preguntas.length ? '#e6f4ea' : '#fdf3e0';
+  res.style.color = correctas === preguntas.length ? '#2e7d4f' : '#5a4300';
+  res.textContent = `Resultado: ${correctas} de ${preguntas.length} correctas.`;
+  localStorage.setItem('afn_m3_quiz', correctas + '/' + preguntas.length);
+  guardarProgreso();
+}
+
+function guardarProgreso(){
+  const total = document.querySelectorAll('.checklist-item, #checklist input, .elemento').length;
+  const abiertos = document.querySelectorAll('.elemento.abierto').length;
+  const marcados = document.querySelectorAll('#checklist input:checked').length;
+  const quizHecho = localStorage.getItem('afn_m3_quiz') ? 1 : 0;
+  const totalPasos = 8 /*elementos*/ + 5 /*checklist*/ + 1 /*quiz*/;
+  const hechos = abiertos + marcados + quizHecho;
+  const pct = Math.round((hechos/totalPasos)*100);
+  document.getElementById('progreso-bar').style.width = pct+'%';
+  document.getElementById('progreso-txt').textContent = pct + ' % completado';
+  try{
+    const estado = {
+      abiertos: Array.from(document.querySelectorAll('.elemento.abierto')).map(e=>e.dataset.id),
+      checklist: Array.from(document.querySelectorAll('#checklist input:checked')).map(c=>c.dataset.item)
+    };
+    localStorage.setItem('afn_m3_estado', JSON.stringify(estado));
+  }catch(e){}
+}
+
+document.querySelectorAll('#checklist input').forEach(c=>c.addEventListener('change', guardarProgreso));
+
+try{
+  const estado = JSON.parse(localStorage.getItem('afn_m3_estado') || 'null');
+  if(estado){
+    estado.checklist.forEach(id=>{
+      const el = document.querySelector(`#checklist input[data-item="${id}"]`);
+      if(el) el.checked = true;
+    });
+  }
+}catch(e){}
+
+guardarProgreso();
+</script>
+
+</body>
+</html>

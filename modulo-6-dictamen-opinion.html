@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 6 · Dictamen u Opinión del Auditor | Auditoría Financiera NIA</title>
+<style>
+  :root{
+    --azul-oscuro:#0b3d63;
+    --azul:#124a76;
+    --azul-claro:#e8f1f8;
+    --dorado:#d4a017;
+    --dorado-claro:#f7e7c1;
+    --texto:#1c2b36;
+    --texto-suave:#5a6b78;
+    --borde:#dbe4ec;
+    --fondo:#f4f7fa;
+    --verde:#2e7d4f;
+    --rojo:#b3261e;
+    --blanco:#ffffff;
+    --radio:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--azul-oscuro),var(--azul));
+    color:#fff;
+    padding:28px 20px 22px;
+  }
+  .header-inner{max-width:960px;margin:0 auto;}
+  .breadcrumb{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--dorado-claro);
+    margin-bottom:8px;
+  }
+  h1{margin:0 0 6px;font-size:1.55rem;}
+  .subt{color:#cfe1f0;font-size:.95rem;margin:0;}
+  .badge-fase{
+    display:inline-block;
+    background:var(--dorado);
+    color:#3a2c00;
+    font-weight:700;
+    font-size:.72rem;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:.03em;
+  }
+  main{max-width:960px;margin:0 auto;padding:22px 20px 60px;}
+
+  .progreso-wrap{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    padding:14px 18px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 1px 3px rgba(11,61,99,.06);
+  }
+  .progreso-bar-bg{flex:1;height:10px;background:var(--azul-claro);border-radius:6px;overflow:hidden;}
+  .progreso-bar-fg{height:100%;width:0%;background:var(--dorado);transition:width .3s ease;}
+  #progreso-txt{font-size:.82rem;color:var(--texto-suave);white-space:nowrap;}
+
+  section.bloque{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,61,99,.05);
+  }
+  .bloque-titulo{
+    padding:16px 20px;
+    font-weight:700;
+    color:var(--azul-oscuro);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--borde);
+    background:var(--azul-claro);
+  }
+  .bloque-cuerpo{padding:18px 20px;}
+  .fuente-nota{
+    font-size:.78rem;
+    color:var(--texto-suave);
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .elemento{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .elemento-cabecera{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:#fbfcfe;
+    user-select:none;
+  }
+  .elemento-cabecera:hover{background:var(--azul-claro);}
+  .elemento-letra{
+    width:28px;height:28px;flex:0 0 28px;
+    background:var(--azul-oscuro);color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;
+  }
+  .elemento-nombre{font-weight:600;flex:1;font-size:.95rem;}
+  .elemento-paginas{font-size:.75rem;color:var(--texto-suave);white-space:nowrap;}
+  .chev{transition:transform .2s ease;color:var(--texto-suave);}
+  .elemento.abierto .chev{transform:rotate(90deg);}
+  .elemento-cuerpo{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    padding:0 16px;
+    font-size:.9rem;
+  }
+  .elemento.abierto .elemento-cuerpo{padding:4px 16px 16px;}
+  .elemento-cuerpo ul{margin:8px 0;padding-left:20px;}
+  .elemento-cuerpo li{margin-bottom:6px;}
+  .cita{color:var(--texto-suave);font-size:.8rem;}
+
+  label.chk{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px dashed var(--borde);
+    font-size:.92rem;
+    cursor:pointer;
+  }
+  label.chk:last-child{border-bottom:none;}
+  label.chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--dorado);flex:0 0 16px;}
+
+  .caja-practica{
+    background:var(--dorado-claro);
+    border:1px solid #ecd48a;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.9rem;
+  }
+  .caja-practica strong{color:#5a4300;}
+
+  .quiz-pregunta{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .quiz-pregunta p.enunciado{font-weight:600;margin:0 0 10px;font-size:.93rem;}
+  .quiz-opciones label{
+    display:block;
+    padding:8px 10px;
+    border:1px solid var(--borde);
+    border-radius:6px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .quiz-opciones label:hover{border-color:var(--azul);}
+  .quiz-opciones input{margin-right:8px;}
+  .quiz-feedback{
+    display:none;
+    margin-top:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  .quiz-feedback.ok{display:block;background:#e6f4ea;color:var(--verde);}
+  .quiz-feedback.mal{display:block;background:#fbeceb;color:var(--rojo);}
+
+  button.btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    font-size:.88rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.btn:hover{background:var(--azul);}
+  button.btn.secundario{
+    background:transparent;
+    color:var(--azul-oscuro);
+    border:1px solid var(--azul-oscuro);
+  }
+  #quiz-resultado{
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:600;
+    display:none;
+  }
+
+  .nav-fases{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--borde);
+    font-size:.85rem;
+    color:var(--texto-suave);
+  }
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--texto-suave);
+    padding:20px;
+  }
+  @media(max-width:600px){
+    .elemento-paginas{display:none;}
+    h1{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">Auditoría Financiera bajo NIA · COHPUCP</div>
+    <span class="badge-fase">Fase 6 de 6</span>
+    <h1>Preparación del Dictamen u Opinión del Auditor Independiente</h1>
+    <p class="subt">Estructura, tipos de opinión y emisión del informe de auditoría (NIA 700, 701, 705, 706, 710, 720).</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="progreso-wrap">
+    <div class="progreso-bar-bg"><div class="progreso-bar-fg" id="progreso-bar"></div></div>
+    <div id="progreso-txt">0 % completado</div>
+  </div>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Resumen normativo</div>
+    <div class="bloque-cuerpo">
+      <p>Este módulo cierra la metodología del curso con la preparación del dictamen u opinión del auditor independiente, entregable final de todo el proceso. Se fundamenta en la <strong>NIA 700</strong> (Revisada) (formación de la opinión), la <strong>NIA 701</strong> (cuestiones clave de auditoría – KAM), la <strong>NIA 705</strong> (Revisada) (opinión modificada), la <strong>NIA 706</strong> (Revisada) (párrafos de énfasis y otras cuestiones), la <strong>NIA 710</strong> (información comparativa) y la <strong>NIA 720</strong> (Revisada) (otra información).</p>
+      <p><strong>Objetivo del módulo:</strong> formar y estructurar la opinión del auditor sobre los estados financieros conforme a las 14 secciones estandarizadas del informe, aplicando la matriz de decisión de la NIA 705 cuando corresponda una opinión modificada, y cumpliendo el protocolo de revisión de calidad previo a la emisión definitiva.</p>
+      <p class="fuente-nota">Fuente: "6Guia curso virtual preparación del dictamen u opinión del auditor independiente.pdf".</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Los 8 elementos normativos del Dictamen u Opinión del Auditor</div>
+    <div class="bloque-cuerpo" id="lista-elementos">
+
+      <div class="elemento" data-id="a">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">a</div>
+          <div class="elemento-nombre">NIA 700 (Revisada) – Formación de la opinión y emisión del informe</div>
+          <div class="elemento-paginas">Págs. 3-6, 20-28</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Trata la responsabilidad del auditor de formarse una opinión basada en la evaluación de las conclusiones extraídas de la evidencia obtenida sobre un conjunto completo de estados financieros de propósito general (Págs. 4-5).</li>
+            <li>Establece que la opinión no modificada (favorable o limpia) procede únicamente cuando los estados financieros están preparados, en todos los aspectos materiales, de conformidad con el marco de información financiera aplicable (Pág. 5).</li>
+            <li>Promueve la congruencia del informe a nivel global para fomentar la credibilidad en el mercado y facilitar la comprensión del usuario (Pág. 5).</li>
+            <li>Redefine la estructura del informe exigiendo ubicar la sección de la "Opinión del Auditor" en el primer párrafo, e incorporar el nombre del socio del encargo y la dirección física de la firma (Págs. 6, 27-28).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 3-6, 20-28.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="b">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">b</div>
+          <div class="elemento-nombre">NIA 701 – Cuestiones clave de auditoría (KAM)</div>
+          <div class="elemento-paginas">Págs. 3, 6-7, 22</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define la responsabilidad de comunicar en el informe las cuestiones clave de la auditoría (KAM), seleccionadas según el juicio profesional del auditor entre los asuntos que requirieron atención significativa (Pág. 6).</li>
+            <li>Busca mejorar el valor comunicativo e incrementar la transparencia del informe, revelando juicios aplicados y áreas de mayor riesgo (Págs. 6-7).</li>
+            <li>Exige como requisito previo que todos los asuntos clave a revelar hayan sido comunicados previamente a los responsables del gobierno corporativo (Pág. 7).</li>
+            <li>Aplica de forma obligatoria en la auditoría de estados financieros de entidades cotizadas en bolsa o por requerimientos regulatorios locales (Pág. 22).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 3, 6-7, 22.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="c">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">c</div>
+          <div class="elemento-nombre">NIA 705 (Revisada) – Opinión modificada</div>
+          <div class="elemento-paginas">Págs. 3, 7-10, 21, 29</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece los tres tipos de opinión modificada: 1) Opinión con salvedades (errores materiales o limitaciones al alcance materiales pero NO generalizados); 2) Opinión desfavorable o adversa (materiales Y generalizados); y 3) Denegación o abstención de opinión (limitaciones materiales Y generalizadas) (Págs. 7, 9, 29).</li>
+            <li>Dispone que las salvedades se detallan en un párrafo de "Fundamento de la opinión", redactadas mediante la fórmula técnica "excepto por" y cuantificando sus efectos cuando sea practicable (Págs. 8, 21).</li>
+            <li>Establece la matriz de decisión basada en dos variables: la naturaleza de la cuestión (incorrección o limitación al alcance) y la generalización de los efectos (Págs. 8-9).</li>
+            <li>Prohíbe emitir una opinión favorable sobre un solo estado financiero individual cuando se ha expresado abstención u opinión adversa sobre el conjunto completo (Págs. 8, 29).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 3, 7-10, 21, 29.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="d">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">d</div>
+          <div class="elemento-nombre">NIA 706 (Revisada) – Párrafos de énfasis y otras cuestiones</div>
+          <div class="elemento-paginas">Págs. 3, 10-12, 21</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Regula la inclusión de párrafos de énfasis para llamar la atención sobre un asunto adecuadamente presentado o revelado en los estados financieros que es fundamental para su comprensión (litigios excepcionales, hechos posteriores significativos, catástrofes) (Págs. 10-11).</li>
+            <li>Regula la inclusión de párrafos sobre otras cuestiones para comunicar asuntos distintos de los presentados en los estados financieros pero relevantes para comprender la auditoría (Pág. 10).</li>
+            <li>Aclara que un párrafo de énfasis u otras cuestiones no constituye una salvedad ni modifica la opinión, ni sustituye las revelaciones obligatorias de la administración (Pág. 10).</li>
+            <li>Establece que el párrafo de énfasis se ubica inmediatamente después de la sección de opinión y antes de las cuestiones clave de auditoría (Pág. 10).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 3, 10-12, 21.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="e">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">e</div>
+          <div class="elemento-nombre">NIA 710 – Información comparativa</div>
+          <div class="elemento-paginas">Págs. 3, 12-13, 21, 23</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define las responsabilidades del auditor frente a la información comparativa bajo dos enfoques: cifras correspondientes de períodos anteriores (opinión referida solo al periodo actual) y estados financieros comparativos (opinión referida a cada corte presentado) (Pág. 13).</li>
+            <li>Señala que en jurisdicciones donde se aplican las NIIF se adopta de forma estándar el enfoque de estados financieros comparativos (Pág. 13).</li>
+            <li>Requiere reflejar menciones o salvedades pertinentes cuando los estados del periodo anterior hayan sido auditados por un auditor predecesor o no hayan sido auditados (Págs. 13, 21, 23).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 3, 12-13, 21, 23.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="f">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">f</div>
+          <div class="elemento-nombre">NIA 720 (Revisada) – Responsabilidades sobre otra información</div>
+          <div class="elemento-paginas">Págs. 3, 13-18, 22-24</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define "otra información" como la información financiera y no financiera incluida en documentos de la entidad como el informe anual de gestión o reportes a los accionistas (Pág. 14).</li>
+            <li>Establece la obligación del auditor de leer y considerar la otra información para identificar incongruencias materiales con los estados financieros o con el conocimiento obtenido durante la auditoría (Págs. 14, 15).</li>
+            <li>Precisa que la opinión del auditor no cubre la otra información, pero si identifica una incongruencia material no corregida debe describir el hallazgo en una sección separada del dictamen titulada "Otra información" (Págs. 14, 22-23).</li>
+            <li>Proporciona ejemplos de otra información a evaluar: resúmenes de resultados clave, datos operativos por segmentos, descripciones de garantías o litigios, y cambios regulatorios (Págs. 16-17).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 3, 13-18, 22-24.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="g">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">g</div>
+          <div class="elemento-nombre">Pasos metodológicos y protocolo de revisión de calidad</div>
+          <div class="elemento-paginas">Págs. 18-20, 27</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Detalla una metodología de 16 pasos prácticos para garantizar la calidad en la redacción y emisión del informe: verificación previa de conclusión de papeles de trabajo, redacción de borradores y lenguaje preciso sin ambigüedades (Págs. 18-19).</li>
+            <li>Requiere consultas de apoyo con miembros experimentados del equipo e inspeccionar el dictamen del periodo anterior para su mejora continua (Págs. 18-19).</li>
+            <li>Establece la obligación de someter el borrador final a la revisión y aprobación formal del socio concurrente o socio de práctica profesional antes de la entrega definitiva al cliente (Pág. 19).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 18-20, 27.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="h">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">h</div>
+          <div class="elemento-nombre">Estructura estandarizada de 14 secciones del informe</div>
+          <div class="elemento-paginas">Págs. 20-28</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Presenta la tabla condensada con los 14 elementos obligatorios del dictamen en su orden técnico: Título, Destinatario, Opinión del Auditor, Fundamento de la Opinión, Párrafo de Énfasis y Otras Cuestiones, Cuestiones Clave de Auditoría, Otra Información, Responsabilidades de la Dirección y Gobierno Corporativo, Responsabilidades del Auditor, Otros asuntos legales y reglamentarios, Nombre del socio del encargo, Firma del auditor, Dirección física y Fecha del informe (Págs. 20-28).</li>
+            <li>Especifica que la fecha del informe no debe ser anterior a la fecha en que se obtuvo evidencia de auditoría suficiente y adecuada para fundamentar la opinión (Pág. 28).</li>
+          </ul>
+          <p class="cita">Guía Preparación del Dictamen, pág. 20-28.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Conexión con el expediente de auditoría (papeles de trabajo)</div>
+    <div class="bloque-cuerpo">
+      <div class="caja-practica">
+        <strong>Del marco normativo a la práctica:</strong> toda la documentación relacionada con este módulo corresponde al entregable final de la Fase 5 (Finalización de la Auditoría y Emisión de Informes). En el Archivo Corriente se integran el Memorando de Conclusión de Auditoría, la Cédula de Validación de la Estructura del Dictamen (Checklist NIA 700), las cédulas de soporte de salvedades y fundamentación técnica (NIA 705), los papeles de trabajo de análisis de la Otra Información / Informe de Gestión (NIA 720), el acta de discusión del borrador del informe con la gerencia y gobierno corporativo, y el comprobante de revisión y aprobación firmado por el Socio Concurrente. Finalmente, en el Archivo Permanente se custodia el ejemplar definitivo del Informe de Auditoría Emitido, firmado por el socio y fechado al cierre del proyecto.
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Autoevaluación</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.88rem;color:var(--texto-suave);margin-top:0;">Preguntas basadas en la guía de Preparación del Dictamen u Opinión del Auditor Independiente.</p>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">1. De acuerdo con la versión revisada de la NIA 700 explicada en la guía, ¿en qué sección del informe de auditoría independiente debe incluirse el párrafo de la "Opinión del Auditor"?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q1" value="a"> En el último párrafo del informe, inmediatamente antes de la firma y la fecha.</label>
+          <label><input type="radio" name="q1" value="b"> En el primer párrafo del informe de auditoría.</label>
+          <label><input type="radio" name="q1" value="c"> Como una nota explicativa dentro de los estados financieros adjuntos.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">2. Conforme a la NIA 705 y la matriz de decisión para opiniones modificadas, si el auditor identifica una incorrección material que es cuantitativa o cualitativamente MATERIAL Y GENERALIZADA en los estados financieros, ¿qué tipo de opinión debe emitir?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q2" value="a"> Opinión con salvedades.</label>
+          <label><input type="radio" name="q2" value="b"> Opinión Desfavorable o Adversa.</label>
+          <label><input type="radio" name="q2" value="c"> Denegación o Abstención de opinión.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">3. Según la NIA 701, ¿cuál es una condición previa obligatoria que el auditor debe cumplir antes de publicar una "Cuestión Clave de Auditoría" (KAM) en su informe final?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q3" value="a"> Haber obtenido la autorización previa por escrito del Ministerio de Hacienda o ente tributario.</label>
+          <label><input type="radio" name="q3" value="b"> Haber informado y comunicado previamente dicha cuestión a los responsables del gobierno corporativo y la administración de la entidad.</label>
+          <label><input type="radio" name="q3" value="c"> Que el error haya sido corregido en su totalidad por la gerencia.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">4. ¿Qué establece la NIA 706 respecto a la naturaleza y alcance de un "párrafo de énfasis" en el informe del auditor?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q4" value="a"> Constituye un tipo especial de salvedad que modifica la opinión del auditor sobre las ventas.</label>
+          <label><input type="radio" name="q4" value="b"> Se utiliza para llamar la atención sobre un asunto adecuadamente presentado o revelado en los estados financieros que es fundamental para comprenderlos, sin constituir una salvedad ni modificar la opinión.</label>
+          <label><input type="radio" name="q4" value="c"> Reemplaza las notas explicativas que la gerencia omitió incluir en el balance.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">5. Conforme a la NIA 720, ¿cuál es la responsabilidad principal del auditor con respecto a la "Otra Información" (como el informe de gestión) que acompaña a los estados financieros auditados?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q5" value="a"> Auditar la otra información con el mismo nivel de detalle que las cuentas del activo y emitir una opinión contable sobre ella.</label>
+          <label><input type="radio" name="q5" value="b"> Leer y considerar la otra información para identificar si existen incongruencias materiales con los estados financieros o con el conocimiento obtenido durante la auditoría.</label>
+          <label><input type="radio" name="q5" value="c"> Redactar el informe de gestión en nombre de la junta directiva de la empresa auditada.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="btn" onclick="calificarQuiz()">Calificar autoevaluación</button>
+      <div id="quiz-resultado"></div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Checklist de repaso — Fase 6</div>
+    <div class="bloque-cuerpo" id="checklist">
+      <label class="chk"><input type="checkbox" data-item="1"> Identifico las 14 secciones estandarizadas del informe de auditoría independiente.</label>
+      <label class="chk"><input type="checkbox" data-item="2"> Sé aplicar la matriz de decisión de la NIA 705 para determinar el tipo de opinión modificada.</label>
+      <label class="chk"><input type="checkbox" data-item="3"> Distingo entre un párrafo de énfasis, uno de otras cuestiones y una cuestión clave de auditoría (KAM).</label>
+      <label class="chk"><input type="checkbox" data-item="4"> Comprendo las responsabilidades del auditor sobre la otra información (NIA 720) y la información comparativa (NIA 710).</label>
+      <label class="chk"><input type="checkbox" data-item="5"> Conozco el protocolo de revisión de calidad y aprobación del socio concurrente antes de emitir el dictamen definitivo.</label>
+    </div>
+  </section>
+
+  <div class="nav-fases">
+    <a href="modulo-5-cierre-auditoria.html" style="color:var(--azul);text-decoration:none;">◀ Módulo 5 · Cierre de Auditoría</a>
+    <a href="index.html" style="color:var(--azul);text-decoration:none;">Inicio del curso ▶</a>
+  </div>
+
+</main>
+
+<footer>
+  Auditoría Financiera bajo NIA — Recurso de capacitación COHPUCP · Contenido basado en guías de estudio propias (NIA 700, 701, 705, 706, 710, 720)
+</footer>
+
+<script>
+function toggleElemento(header){
+  const el = header.parentElement;
+  el.classList.toggle('abierto');
+  const cuerpo = el.querySelector('.elemento-cuerpo');
+  cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
+  guardarProgreso();
+}
+
+function calificarQuiz(){
+  const preguntas = document.querySelectorAll('.quiz-pregunta');
+  let correctas = 0;
+  preguntas.forEach(p=>{
+    const correcta = p.dataset.correcta;
+    const marcada = p.querySelector('input[type=radio]:checked');
+    const fb = p.querySelector('.quiz-feedback');
+    if(!marcada){
+      fb.className='quiz-feedback mal';
+      fb.textContent='No respondida.';
+      return;
+    }
+    if(marcada.value === correcta){
+      correctas++;
+      fb.className='quiz-feedback ok';
+      fb.textContent='Correcto.';
+    } else {
+      fb.className='quiz-feedback mal';
+      fb.textContent='Incorrecto. Revisa el elemento correspondiente arriba.';
+    }
+  });
+  const res = document.getElementById('quiz-resultado');
+  res.style.display='block';
+  res.style.background = correctas === preguntas.length ? '#e6f4ea' : '#fdf3e0';
+  res.style.color = correctas === preguntas.length ? '#2e7d4f' : '#5a4300';
+  res.textContent = `Resultado: ${correctas} de ${preguntas.length} correctas.`;
+  localStorage.setItem('afn_m6_quiz', correctas + '/' + preguntas.length);
+  guardarProgreso();
+}
+
+function guardarProgreso(){
+  const total = document.querySelectorAll('.checklist-item, #checklist input, .elemento').length;
+  const abiertos = document.querySelectorAll('.elemento.abierto').length;
+  const marcados = document.querySelectorAll('#checklist input:checked').length;
+  const quizHecho = localStorage.getItem('afn_m6_quiz') ? 1 : 0;
+  const totalPasos = 8 /*elementos*/ + 5 /*checklist*/ + 1 /*quiz*/;
+  const hechos = abiertos + marcados + quizHecho;
+  const pct = Math.round((hechos/totalPasos)*100);
+  document.getElementById('progreso-bar').style.width = pct+'%';
+  document.getElementById('progreso-txt').textContent = pct + ' % completado';
+  try{
+    const estado = {
+      abiertos: Array.from(document.querySelectorAll('.elemento.abierto')).map(e=>e.dataset.id),
+      checklist: Array.from(document.querySelectorAll('#checklist input:checked')).map(c=>c.dataset.item)
+    };
+    localStorage.setItem('afn_m6_estado', JSON.stringify(estado));
+  }catch(e){}
+}
+
+document.querySelectorAll('#checklist input').forEach(c=>c.addEventListener('change', guardarProgreso));
+
+try{
+  const estado = JSON.parse(localStorage.getItem('afn_m6_estado') || 'null');
+  if(estado){
+    estado.checklist.forEach(id=>{
+      const el = document.querySelector(`#checklist input[data-item="${id}"]`);
+      if(el) el.checked = true;
+    });
+  }
+}catch(e){}
+
+guardarProgreso();
+</script>
+
+</body>
+</html>

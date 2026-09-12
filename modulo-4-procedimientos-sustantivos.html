@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 4 · Procedimientos Sustantivos | Auditoría Financiera NIA</title>
+<style>
+  :root{
+    --azul-oscuro:#0b3d63;
+    --azul:#124a76;
+    --azul-claro:#e8f1f8;
+    --dorado:#d4a017;
+    --dorado-claro:#f7e7c1;
+    --texto:#1c2b36;
+    --texto-suave:#5a6b78;
+    --borde:#dbe4ec;
+    --fondo:#f4f7fa;
+    --verde:#2e7d4f;
+    --rojo:#b3261e;
+    --blanco:#ffffff;
+    --radio:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--azul-oscuro),var(--azul));
+    color:#fff;
+    padding:28px 20px 22px;
+  }
+  .header-inner{max-width:960px;margin:0 auto;}
+  .breadcrumb{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--dorado-claro);
+    margin-bottom:8px;
+  }
+  h1{margin:0 0 6px;font-size:1.55rem;}
+  .subt{color:#cfe1f0;font-size:.95rem;margin:0;}
+  .badge-fase{
+    display:inline-block;
+    background:var(--dorado);
+    color:#3a2c00;
+    font-weight:700;
+    font-size:.72rem;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:.03em;
+  }
+  main{max-width:960px;margin:0 auto;padding:22px 20px 60px;}
+
+  .progreso-wrap{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    padding:14px 18px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 1px 3px rgba(11,61,99,.06);
+  }
+  .progreso-bar-bg{flex:1;height:10px;background:var(--azul-claro);border-radius:6px;overflow:hidden;}
+  .progreso-bar-fg{height:100%;width:0%;background:var(--dorado);transition:width .3s ease;}
+  #progreso-txt{font-size:.82rem;color:var(--texto-suave);white-space:nowrap;}
+
+  section.bloque{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,61,99,.05);
+  }
+  .bloque-titulo{
+    padding:16px 20px;
+    font-weight:700;
+    color:var(--azul-oscuro);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--borde);
+    background:var(--azul-claro);
+  }
+  .bloque-cuerpo{padding:18px 20px;}
+  .fuente-nota{
+    font-size:.78rem;
+    color:var(--texto-suave);
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .elemento{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .elemento-cabecera{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:#fbfcfe;
+    user-select:none;
+  }
+  .elemento-cabecera:hover{background:var(--azul-claro);}
+  .elemento-letra{
+    width:28px;height:28px;flex:0 0 28px;
+    background:var(--azul-oscuro);color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;
+  }
+  .elemento-nombre{font-weight:600;flex:1;font-size:.95rem;}
+  .elemento-paginas{font-size:.75rem;color:var(--texto-suave);white-space:nowrap;}
+  .chev{transition:transform .2s ease;color:var(--texto-suave);}
+  .elemento.abierto .chev{transform:rotate(90deg);}
+  .elemento-cuerpo{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    padding:0 16px;
+    font-size:.9rem;
+  }
+  .elemento.abierto .elemento-cuerpo{padding:4px 16px 16px;}
+  .elemento-cuerpo ul{margin:8px 0;padding-left:20px;}
+  .elemento-cuerpo li{margin-bottom:6px;}
+  .cita{color:var(--texto-suave);font-size:.8rem;}
+
+  label.chk{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px dashed var(--borde);
+    font-size:.92rem;
+    cursor:pointer;
+  }
+  label.chk:last-child{border-bottom:none;}
+  label.chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--dorado);flex:0 0 16px;}
+
+  .caja-practica{
+    background:var(--dorado-claro);
+    border:1px solid #ecd48a;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.9rem;
+  }
+  .caja-practica strong{color:#5a4300;}
+
+  .quiz-pregunta{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .quiz-pregunta p.enunciado{font-weight:600;margin:0 0 10px;font-size:.93rem;}
+  .quiz-opciones label{
+    display:block;
+    padding:8px 10px;
+    border:1px solid var(--borde);
+    border-radius:6px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .quiz-opciones label:hover{border-color:var(--azul);}
+  .quiz-opciones input{margin-right:8px;}
+  .quiz-feedback{
+    display:none;
+    margin-top:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  .quiz-feedback.ok{display:block;background:#e6f4ea;color:var(--verde);}
+  .quiz-feedback.mal{display:block;background:#fbeceb;color:var(--rojo);}
+
+  button.btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    font-size:.88rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.btn:hover{background:var(--azul);}
+  button.btn.secundario{
+    background:transparent;
+    color:var(--azul-oscuro);
+    border:1px solid var(--azul-oscuro);
+  }
+  #quiz-resultado{
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:600;
+    display:none;
+  }
+
+  .nav-fases{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--borde);
+    font-size:.85rem;
+    color:var(--texto-suave);
+  }
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--texto-suave);
+    padding:20px;
+  }
+  @media(max-width:600px){
+    .elemento-paginas{display:none;}
+    h1{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">Auditoría Financiera bajo NIA · COHPUCP</div>
+    <span class="badge-fase">Fase 4 de 6</span>
+    <h1>Diseño y Ejecución de Procedimientos Sustantivos</h1>
+    <p class="subt">Pruebas sustantivas sobre los saldos y transacciones de los estados financieros (NIA 315, 240, 200, 500, 330, 505, 520, 530, 540).</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="progreso-wrap">
+    <div class="progreso-bar-bg"><div class="progreso-bar-fg" id="progreso-bar"></div></div>
+    <div id="progreso-txt">0 % completado</div>
+  </div>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Resumen normativo</div>
+    <div class="bloque-cuerpo">
+      <p>Este módulo desarrolla el diseño y ejecución de los procedimientos sustantivos que permiten al auditor obtener evidencia suficiente y adecuada sobre los saldos y transacciones de los estados financieros. Se apoya en la <strong>NIA 315</strong> (aseveraciones y riesgos), la <strong>NIA 330</strong> (respuestas del auditor), la <strong>NIA 500</strong> (evidencia de auditoría), la <strong>NIA 505</strong> (confirmaciones externas), la <strong>NIA 520</strong> (procedimientos analíticos), la <strong>NIA 530</strong> (muestreo de auditoría) y la <strong>NIA 540</strong> (estimaciones contables), junto con la <strong>NIA 240</strong> (fraude) y la <strong>NIA 200</strong> (riesgo de auditoría).</p>
+      <p><strong>Objetivo del módulo:</strong> diseñar y ejecutar procedimientos analíticos sustantivos y pruebas de detalle para cada clase de transacción, saldo de cuenta y revelación significativa, con un alcance determinado en función de los resultados de las pruebas de controles del Módulo 3.</p>
+      <p class="fuente-nota">Fuente: "4Guia Procedimientos Sustantivos en Auditoría.pdf".</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Los 10 elementos normativos de los Procedimientos Sustantivos</div>
+    <div class="bloque-cuerpo" id="lista-elementos">
+
+      <div class="elemento" data-id="a">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">a</div>
+          <div class="elemento-nombre">NIA 315 – Aseveraciones y riesgos de error material</div>
+          <div class="elemento-paginas">Págs. 4-7</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define las aseveraciones como las manifestaciones explícitas o no de la dirección incluidas en los estados financieros, clasificadas en tres categorías: transacciones y hechos, saldos contables al cierre, y presentación y revelación.</li>
+            <li>Exige identificar y valorar los riesgos de error material a nivel de aseveraciones para las clases de transacciones, cuentas de balance y revelaciones.</li>
+            <li>Establece la obligación de determinar si alguno de los riesgos identificados es un "riesgo significativo", juzgándolo independientemente de los controles asociados.</li>
+            <li>Requiere documentar de forma clara, oportuna y consistente los riesgos identificados y su evaluación.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 4-7.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="b">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">b</div>
+          <div class="elemento-nombre">NIA 240 – Responsabilidades del auditor con respecto al fraude</div>
+          <div class="elemento-paginas">Págs. 7-12</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define el fraude como un acto intencionado mediante el engaño para obtener una ventaja injusta o ilegal, e identifica factores de riesgo: incentivos/presiones, oportunidades percibidas y racionalización/actitud.</li>
+            <li>Exige mantener escepticismo profesional y cuestionamiento mental crítico durante toda la auditoría, sin importar la honestidad previa de la gerencia.</li>
+            <li>Establece la responsabilidad de valorar riesgos de error material por fraude, ejecutar pruebas para detectarlo y obtener manifestaciones escritas de la dirección.</li>
+            <li>Ante fraude detectado o posible, requiere evaluar la continuidad del encargo y comunicar el hallazgo a la gerencia, gobierno corporativo y autoridades supervisoras.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 7-12.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="c">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">c</div>
+          <div class="elemento-nombre">NIA 200 – Objetivos generales del auditor y riesgo de auditoría</div>
+          <div class="elemento-paginas">Págs. 11, 15-16</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece que la seguridad razonable se alcanza cuando el auditor ha obtenido evidencia suficiente y adecuada para reducir el riesgo de auditoría a un nivel aceptablemente bajo.</li>
+            <li>Define los dos componentes del riesgo de auditoría: el riesgo de que los estados financieros contengan errores materiales (riesgo inherente y riesgo de control) y el riesgo de detección del auditor.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 11, 15-16.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="d">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">d</div>
+          <div class="elemento-nombre">NIA 500 – Evidencia de auditoría</div>
+          <div class="elemento-paginas">Págs. 12-18</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define la "Suficiencia" como la medida cuantitativa de la cantidad de evidencia y la "Adecuación" como la medida cualitativa de su relevancia y confiabilidad.</li>
+            <li>Detalla las 7 técnicas para obtener evidencia: inspección, observación, confirmación externa, recálculo, reejecución, procedimientos analíticos e indagaciones.</li>
+            <li>Señala que la confiabilidad de la evidencia depende de su origen: es más confiable si proviene de fuentes independientes externas, de controles internos efectivos, obtenida directamente por el auditor o en documentos originales.</li>
+            <li>Define los procedimientos sustantivos como pruebas para detectar representaciones erróneas de importancia material, divididas en procedimientos analíticos sustantivos y pruebas de detalle.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 12-18.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="e">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">e</div>
+          <div class="elemento-nombre">NIA 330 – Respuestas del auditor a los riesgos valorados</div>
+          <div class="elemento-paginas">Págs. 17-19</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Dispone que el auditor deberá diseñar y ejecutar procedimientos sustantivos para cada clase de transacción importante, saldo de cuenta y revelación, independientemente de los riesgos evaluados.</li>
+            <li>Establece que el alcance de las pruebas sustantivas es inversamente proporcional a los resultados de las pruebas de controles: si los controles operan de forma satisfactoria el alcance sustantivo es menor, y viceversa.</li>
+            <li>Recomienda ejecutar los procedimientos sustantivos en dos momentos: un precierre (cercano al 31 de diciembre) y el cierre definitivo, cubriendo el periodo restante con extensión de conclusiones o pruebas adicionales.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 17-19.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="f">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">f</div>
+          <div class="elemento-nombre">NIA 505 – Confirmaciones externas</div>
+          <div class="elemento-paginas">Págs. 14, 28, 30-31</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Exige que las confirmaciones externas se diseñen de modo que se obtenga evidencia escrita directa de un tercero que sea relevante y confiable.</li>
+            <li>Describe la confirmación con terceras partes como un procedimiento de detalle para verificar transacciones y saldos (clientes, bancos, proveedores o abogados).</li>
+            <li>Define la prueba de cubrimiento para seleccionar partidas significativas de alto valor monetario (ej. confirmar los 10 clientes principales que representan el 70% de la cartera).</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 14, 28, 30-31.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="g">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">g</div>
+          <div class="elemento-nombre">NIA 520 – Procedimientos analíticos</div>
+          <div class="elemento-paginas">Págs. 20-27</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define los procedimientos analíticos como evaluaciones de información financiera mediante el análisis de relaciones plausibles entre datos financieros y no financieros, investigando variaciones significativas.</li>
+            <li>Establece 4 requisitos para su diseño: determinar la idoneidad según la aseveración, evaluar la confiabilidad de los datos fuente, desarrollar una expectativa precisa y cuantificar la diferencia aceptable.</li>
+            <li>Clasifica los tipos según expectativas (industria, cliente/presupuestos, auditor) e identifica dos técnicas: análisis de tendencias y pruebas de razonabilidad, ejecutadas en 7 pasos.</li>
+            <li>Exige realizar procedimientos analíticos cerca del final de la auditoría para alcanzar una conclusión general sobre la consistencia de los estados financieros.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 20-27.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="h">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">h</div>
+          <div class="elemento-nombre">Pruebas de Detalle y Métodos de Selección</div>
+          <div class="elemento-paginas">Págs. 27-32</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Describe las pruebas de detalle más comunes: confirmación con terceros, pruebas de corte (ventas y compras), inspección física de activos, revisión de cálculos y documentación soporte, pasivos no registrados y pagos posteriores.</li>
+            <li>Establece tres métodos de selección: inspección del 100% de la población, selección a juicio del auditor (cubrimiento, partidas clave, sospechosas o inusuales, extraordinarias y saldos cero) y muestreo de auditoría.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 27-32.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="i">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">i</div>
+          <div class="elemento-nombre">NIA 530 – Muestreo de auditoría</div>
+          <div class="elemento-paginas">Págs. 32-41</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define el muestreo de auditoría como la aplicación de un procedimiento a menos del 100% de los elementos de una población, de modo que todas las unidades tengan posibilidad de selección.</li>
+            <li>Exige determinar un tamaño de muestra suficiente para reducir el riesgo de muestreo e investigar la naturaleza y causa de cualquier error o desviación detectada.</li>
+            <li>Establece la obligación de proyectar a la población total los errores encontrados en la muestra y evaluar si los resultados proveen una base razonable para concluir.</li>
+            <li>Analiza los factores que afectan el tamaño de la muestra: el riesgo de incorrección material la aumenta, el uso de otros procedimientos sustantivos la disminuye, y la estratificación de la población la disminuye.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 32-41.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="j">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">j</div>
+          <div class="elemento-nombre">NIA 540 – Auditoría de estimaciones contables</div>
+          <div class="elemento-paginas">Págs. 41-46</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece que el objetivo del auditor es obtener evidencia suficiente y adecuada de que las estimaciones contables (incluidas las de valor razonable) son razonables e integrales.</li>
+            <li>Requiere dividir la auditoría en tres áreas: operaciones rutinarias, excepcionales y estimaciones; e indagar sobre cambios en las circunstancias que originen nuevas estimaciones.</li>
+            <li>Detalla la fórmula IRCA (Importancia + Riesgos inherentes - Controles existentes = Auditoría específica) e insta a un escepticismo profesional reforzado mediante revisión de hechos posteriores, recálculos y confirmaciones.</li>
+            <li>Señala que ante dudas no resueltas sobre una estimación futura, el auditor debe incluir una salvedad en el dictamen y fundamentar exhaustivamente la evidencia en los papeles de trabajo.</li>
+          </ul>
+          <p class="cita">Guía Procedimientos Sustantivos, pág. 41-46.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Conexión con el expediente de auditoría (papeles de trabajo)</div>
+    <div class="bloque-cuerpo">
+      <div class="caja-practica">
+        <strong>Del marco normativo a la práctica:</strong> las actividades y evidencias generadas en este módulo corresponden a la Fase IV (Diseño y Ejecución de Procedimientos Sustantivos) del expediente de auditoría y se archivan de forma estructurada en el Archivo Corriente. Se organizan en las Cédulas Sumarias por cada rubro principal de los Estados Financieros (Activo, Pasivo, Patrimonio, Ingresos, Costos y Gastos), las cuales se alimentan de las Cédulas Analíticas y Subanalíticas donde se documentan los papeles de trabajo de detalle: confirmaciones escritas de terceros (bancos, clientes, proveedores, abogados), actas de participación en inventarios físicos y arqueos de caja, planillas de pruebas de corte de operaciones, cédulas de pruebas analíticas sustantivas, planillas de revisión de pasivos no registrados y pagos posteriores, y la Cédula de Ajustes y Reclasificaciones de Auditoría.
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Autoevaluación</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.88rem;color:var(--texto-suave);margin-top:0;">Preguntas basadas en la guía de Procedimientos Sustantivos en Auditoría.</p>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">1. De acuerdo con la NIA 500 y la NIA 330, ¿cómo se relaciona el alcance de los procedimientos sustantivos con los resultados de las pruebas a los controles del cliente?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q1" value="a"> El alcance de los procedimientos sustantivos debe ser directamente proporcional a la eficacia de las pruebas de controles.</label>
+          <label><input type="radio" name="q1" value="b"> El alcance de los procedimientos sustantivos es inversamente proporcional a los resultados de las pruebas a los controles: a mejores resultados de controles, menor alcance sustantivo requerirá el auditor.</label>
+          <label><input type="radio" name="q1" value="c"> La evaluación de los controles no influye de ninguna manera en la determinación del alcance de las pruebas sustantivas.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">2. Según la NIA 520, ¿cuál de las siguientes opciones describe el propósito de aplicar procedimientos analíticos cerca del final de la auditoría?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q2" value="a"> Sustituir la toma física de inventarios e inspección de activos fijos al cierre.</label>
+          <label><input type="radio" name="q2" value="b"> Alcanzar una conclusión general sobre si los estados financieros son consistentes con el conocimiento que el auditor tiene de la entidad.</label>
+          <label><input type="radio" name="q2" value="c"> Determinar los honorarios definitivos que se cobrarán por el encargo.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="a">
+        <p class="enunciado">3. Conforme a la NIA 530, cuando el auditor aplica el muestreo de auditoría en pruebas de detalle y detecta errores en los elementos seleccionados de la muestra, ¿qué procedimiento es obligatorio llevar a cabo?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q3" value="a"> Proyectar los errores encontrados en la muestra a la población total y evaluar el efecto sobre el objetivo del procedimiento.</label>
+          <label><input type="radio" name="q3" value="b"> Eliminar los elementos con error de la muestra para no distorsionar el cálculo promedio.</label>
+          <label><input type="radio" name="q3" value="c"> Modificar automáticamente la opinión del dictamen a denegación o abstención de opinión.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">4. Según la NIA 540 respecto a la auditoría de estimaciones contables, ¿qué representa la fórmula metodológica IRCA descrita en la guía?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q4" value="a"> Un procedimiento automático para autorizar el pago de dividendos a los accionistas.</label>
+          <label><input type="radio" name="q4" value="b"> La metodología para determinar la necesidad de auditoría específica restando los controles existentes a la suma de la importancia y los riesgos inherentes de la estimación.</label>
+          <label><input type="radio" name="q4" value="c"> Un modelo estadístico para calcular la tasa de inflación acumulada.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">5. En las pruebas de detalle descritas en el módulo, ¿en qué consiste la prueba para detectar "pasivos no registrados"?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q5" value="a"> En enviar solicitudes de confirmación escrita a los clientes morosos con saldos superiores a un año.</label>
+          <label><input type="radio" name="q5" value="b"> En examinar los pagos realizados y facturas recibidas/causadas en los primeros meses del periodo siguiente para identificar costos o gastos del ejercicio auditado no reconocidos.</label>
+          <label><input type="radio" name="q5" value="c"> En verificar que la gerencia haya depositado el capital social en un banco extranjero.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="btn" onclick="calificarQuiz()">Calificar autoevaluación</button>
+      <div id="quiz-resultado"></div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Checklist de repaso — Fase 4</div>
+    <div class="bloque-cuerpo" id="checklist">
+      <label class="chk"><input type="checkbox" data-item="1"> Identifico las tres categorías de aseveraciones de la NIA 315 y su relación con el diseño de procedimientos sustantivos.</label>
+      <label class="chk"><input type="checkbox" data-item="2"> Sé determinar el alcance de las pruebas sustantivas en función de los resultados de las pruebas de controles (NIA 330).</label>
+      <label class="chk"><input type="checkbox" data-item="3"> Distingo entre procedimientos analíticos sustantivos y pruebas de detalle, y sus técnicas asociadas.</label>
+      <label class="chk"><input type="checkbox" data-item="4"> Comprendo los tres métodos de selección de partidas para pruebas de detalle y el muestreo de auditoría (NIA 530).</label>
+      <label class="chk"><input type="checkbox" data-item="5"> Entiendo la aplicación de la fórmula IRCA en la auditoría de estimaciones contables (NIA 540).</label>
+    </div>
+  </section>
+
+  <div class="nav-fases">
+    <a href="modulo-3-evaluacion-procesos-clave.html" style="color:var(--azul);text-decoration:none;">◀ Módulo 3 · Evaluación de Procesos Clave</a>
+    <a href="modulo-5-cierre-auditoria.html" style="color:var(--azul);text-decoration:none;">Módulo 5 · Cierre de Auditoría ▶</a>
+  </div>
+
+</main>
+
+<footer>
+  Auditoría Financiera bajo NIA — Recurso de capacitación COHPUCP · Contenido basado en guías de estudio propias (NIA 315, 240, 200, 500, 330, 505, 520, 530, 540)
+</footer>
+
+<script>
+function toggleElemento(header){
+  const el = header.parentElement;
+  el.classList.toggle('abierto');
+  const cuerpo = el.querySelector('.elemento-cuerpo');
+  cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
+  guardarProgreso();
+}
+
+function calificarQuiz(){
+  const preguntas = document.querySelectorAll('.quiz-pregunta');
+  let correctas = 0;
+  preguntas.forEach(p=>{
+    const correcta = p.dataset.correcta;
+    const marcada = p.querySelector('input[type=radio]:checked');
+    const fb = p.querySelector('.quiz-feedback');
+    if(!marcada){
+      fb.className='quiz-feedback mal';
+      fb.textContent='No respondida.';
+      return;
+    }
+    if(marcada.value === correcta){
+      correctas++;
+      fb.className='quiz-feedback ok';
+      fb.textContent='Correcto.';
+    } else {
+      fb.className='quiz-feedback mal';
+      fb.textContent='Incorrecto. Revisa el elemento correspondiente arriba.';
+    }
+  });
+  const res = document.getElementById('quiz-resultado');
+  res.style.display='block';
+  res.style.background = correctas === preguntas.length ? '#e6f4ea' : '#fdf3e0';
+  res.style.color = correctas === preguntas.length ? '#2e7d4f' : '#5a4300';
+  res.textContent = `Resultado: ${correctas} de ${preguntas.length} correctas.`;
+  localStorage.setItem('afn_m4_quiz', correctas + '/' + preguntas.length);
+  guardarProgreso();
+}
+
+function guardarProgreso(){
+  const total = document.querySelectorAll('.checklist-item, #checklist input, .elemento').length;
+  const abiertos = document.querySelectorAll('.elemento.abierto').length;
+  const marcados = document.querySelectorAll('#checklist input:checked').length;
+  const quizHecho = localStorage.getItem('afn_m4_quiz') ? 1 : 0;
+  const totalPasos = 10 /*elementos*/ + 5 /*checklist*/ + 1 /*quiz*/;
+  const hechos = abiertos + marcados + quizHecho;
+  const pct = Math.round((hechos/totalPasos)*100);
+  document.getElementById('progreso-bar').style.width = pct+'%';
+  document.getElementById('progreso-txt').textContent = pct + ' % completado';
+  try{
+    const estado = {
+      abiertos: Array.from(document.querySelectorAll('.elemento.abierto')).map(e=>e.dataset.id),
+      checklist: Array.from(document.querySelectorAll('#checklist input:checked')).map(c=>c.dataset.item)
+    };
+    localStorage.setItem('afn_m4_estado', JSON.stringify(estado));
+  }catch(e){}
+}
+
+document.querySelectorAll('#checklist input').forEach(c=>c.addEventListener('change', guardarProgreso));
+
+try{
+  const estado = JSON.parse(localStorage.getItem('afn_m4_estado') || 'null');
+  if(estado){
+    estado.checklist.forEach(id=>{
+      const el = document.querySelector(`#checklist input[data-item="${id}"]`);
+      if(el) el.checked = true;
+    });
+  }
+}catch(e){}
+
+guardarProgreso();
+</script>
+
+</body>
+</html>

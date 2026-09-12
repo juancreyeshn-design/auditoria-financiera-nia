@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 5 · Cierre de Auditoría | Auditoría Financiera NIA</title>
+<style>
+  :root{
+    --azul-oscuro:#0b3d63;
+    --azul:#124a76;
+    --azul-claro:#e8f1f8;
+    --dorado:#d4a017;
+    --dorado-claro:#f7e7c1;
+    --texto:#1c2b36;
+    --texto-suave:#5a6b78;
+    --borde:#dbe4ec;
+    --fondo:#f4f7fa;
+    --verde:#2e7d4f;
+    --rojo:#b3261e;
+    --blanco:#ffffff;
+    --radio:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Segoe UI",Arial,Helvetica,sans-serif;
+    background:var(--fondo);
+    color:var(--texto);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--azul-oscuro),var(--azul));
+    color:#fff;
+    padding:28px 20px 22px;
+  }
+  .header-inner{max-width:960px;margin:0 auto;}
+  .breadcrumb{
+    font-size:.78rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--dorado-claro);
+    margin-bottom:8px;
+  }
+  h1{margin:0 0 6px;font-size:1.55rem;}
+  .subt{color:#cfe1f0;font-size:.95rem;margin:0;}
+  .badge-fase{
+    display:inline-block;
+    background:var(--dorado);
+    color:#3a2c00;
+    font-weight:700;
+    font-size:.72rem;
+    padding:3px 10px;
+    border-radius:20px;
+    margin-bottom:10px;
+    letter-spacing:.03em;
+  }
+  main{max-width:960px;margin:0 auto;padding:22px 20px 60px;}
+
+  .progreso-wrap{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    padding:14px 18px;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:16px;
+    box-shadow:0 1px 3px rgba(11,61,99,.06);
+  }
+  .progreso-bar-bg{flex:1;height:10px;background:var(--azul-claro);border-radius:6px;overflow:hidden;}
+  .progreso-bar-fg{height:100%;width:0%;background:var(--dorado);transition:width .3s ease;}
+  #progreso-txt{font-size:.82rem;color:var(--texto-suave);white-space:nowrap;}
+
+  section.bloque{
+    background:var(--blanco);
+    border:1px solid var(--borde);
+    border-radius:var(--radio);
+    margin-bottom:20px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(11,61,99,.05);
+  }
+  .bloque-titulo{
+    padding:16px 20px;
+    font-weight:700;
+    color:var(--azul-oscuro);
+    font-size:1.05rem;
+    border-bottom:1px solid var(--borde);
+    background:var(--azul-claro);
+  }
+  .bloque-cuerpo{padding:18px 20px;}
+  .fuente-nota{
+    font-size:.78rem;
+    color:var(--texto-suave);
+    font-style:italic;
+    margin-top:10px;
+  }
+
+  .elemento{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .elemento-cabecera{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    background:#fbfcfe;
+    user-select:none;
+  }
+  .elemento-cabecera:hover{background:var(--azul-claro);}
+  .elemento-letra{
+    width:28px;height:28px;flex:0 0 28px;
+    background:var(--azul-oscuro);color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:.85rem;font-weight:700;
+  }
+  .elemento-nombre{font-weight:600;flex:1;font-size:.95rem;}
+  .elemento-paginas{font-size:.75rem;color:var(--texto-suave);white-space:nowrap;}
+  .chev{transition:transform .2s ease;color:var(--texto-suave);}
+  .elemento.abierto .chev{transform:rotate(90deg);}
+  .elemento-cuerpo{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+    padding:0 16px;
+    font-size:.9rem;
+  }
+  .elemento.abierto .elemento-cuerpo{padding:4px 16px 16px;}
+  .elemento-cuerpo ul{margin:8px 0;padding-left:20px;}
+  .elemento-cuerpo li{margin-bottom:6px;}
+  .cita{color:var(--texto-suave);font-size:.8rem;}
+
+  label.chk{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    padding:10px 0;
+    border-bottom:1px dashed var(--borde);
+    font-size:.92rem;
+    cursor:pointer;
+  }
+  label.chk:last-child{border-bottom:none;}
+  label.chk input{margin-top:3px;width:16px;height:16px;accent-color:var(--dorado);flex:0 0 16px;}
+
+  .caja-practica{
+    background:var(--dorado-claro);
+    border:1px solid #ecd48a;
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:.9rem;
+  }
+  .caja-practica strong{color:#5a4300;}
+
+  .quiz-pregunta{
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:14px;
+  }
+  .quiz-pregunta p.enunciado{font-weight:600;margin:0 0 10px;font-size:.93rem;}
+  .quiz-opciones label{
+    display:block;
+    padding:8px 10px;
+    border:1px solid var(--borde);
+    border-radius:6px;
+    margin-bottom:7px;
+    cursor:pointer;
+    font-size:.88rem;
+  }
+  .quiz-opciones label:hover{border-color:var(--azul);}
+  .quiz-opciones input{margin-right:8px;}
+  .quiz-feedback{
+    display:none;
+    margin-top:8px;
+    padding:8px 10px;
+    border-radius:6px;
+    font-size:.85rem;
+  }
+  .quiz-feedback.ok{display:block;background:#e6f4ea;color:var(--verde);}
+  .quiz-feedback.mal{display:block;background:#fbeceb;color:var(--rojo);}
+
+  button.btn{
+    background:var(--azul-oscuro);
+    color:#fff;
+    border:none;
+    padding:10px 18px;
+    border-radius:6px;
+    font-size:.88rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button.btn:hover{background:var(--azul);}
+  button.btn.secundario{
+    background:transparent;
+    color:var(--azul-oscuro);
+    border:1px solid var(--azul-oscuro);
+  }
+  #quiz-resultado{
+    margin-top:14px;
+    padding:12px 16px;
+    border-radius:8px;
+    font-weight:600;
+    display:none;
+  }
+
+  .nav-fases{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    padding-top:18px;
+    border-top:1px solid var(--borde);
+    font-size:.85rem;
+    color:var(--texto-suave);
+  }
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--texto-suave);
+    padding:20px;
+  }
+  @media(max-width:600px){
+    .elemento-paginas{display:none;}
+    h1{font-size:1.3rem;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="breadcrumb">Auditoría Financiera bajo NIA · COHPUCP</div>
+    <span class="badge-fase">Fase 5 de 6</span>
+    <h1>Finalización y Cierre de la Auditoría Financiera</h1>
+    <p class="subt">Procedimientos de cierre, revisión final y consolidación de hallazgos (NIA 520, 560, 570, 450, 320, 580, 700/705).</p>
+  </div>
+</header>
+
+<main>
+
+  <div class="progreso-wrap">
+    <div class="progreso-bar-bg"><div class="progreso-bar-fg" id="progreso-bar"></div></div>
+    <div id="progreso-txt">0 % completado</div>
+  </div>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Resumen normativo</div>
+    <div class="bloque-cuerpo">
+      <p>Este módulo desarrolla los procedimientos de finalización y cierre de la auditoría, previos a la emisión del dictamen. Se fundamenta en la <strong>NIA 520</strong> (revisión analítica final), la <strong>NIA 560</strong> (hechos posteriores), la <strong>NIA 570</strong> (empresa en funcionamiento), la <strong>NIA 450</strong> (evaluación de incorrecciones), la <strong>NIA 320</strong> (importancia relativa), la <strong>NIA 580</strong> (manifestaciones escritas) y un conjunto de requerimientos de calidad y cierre de documentación (NIA 220, 230, 240, 250, 260, 265, 330, 402, 610, 620), como puente hacia la NIA 700/705 del Módulo 6.</p>
+      <p><strong>Objetivo del módulo:</strong> ejecutar los procedimientos finales que permiten al auditor concluir sobre la razonabilidad global de los estados financieros, evaluar hechos posteriores y la hipótesis de negocio en marcha, cuantificar el efecto de las incorrecciones no corregidas, y obtener las manifestaciones escritas de la dirección antes de formarse una opinión.</p>
+      <p class="fuente-nota">Fuente: "5Guia curso cierre de auditoria de informacion financiera-com.pdf".</p>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Los 8 elementos normativos del Cierre de Auditoría</div>
+    <div class="bloque-cuerpo" id="lista-elementos">
+
+      <div class="elemento" data-id="a">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">a</div>
+          <div class="elemento-nombre">NIA 520 – Procedimientos analíticos en la revisión analítica final</div>
+          <div class="elemento-paginas">Págs. 2-3</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece la responsabilidad del auditor de aplicar, en una fecha cercana a la finalización de la auditoría, procedimientos analíticos que le faciliten alcanzar una conclusión global sobre si los estados financieros son congruentes con su conocimiento de la entidad (Pág. 2).</li>
+            <li>Señala que la revisión analítica final consiste en comparar los estados financieros del año auditado con los del año anterior (Balance General y Estado de Resultados), determinando las causas de las variaciones e indicadores de rendimiento clave (Págs. 2-3).</li>
+            <li>Explica que los resultados de esta revisión permiten corroborar las conclusiones de componentes individuales; si revelan un riesgo de incorrección material no detectado previamente, la NIA 315 requiere revisar la valoración de riesgos y modificar los procedimientos posteriores (Pág. 2).</li>
+            <li>Advierte que las variaciones no explicadas pueden indicar áreas no auditadas o la presencia de errores e irregularidades, requiriendo prestar atención tanto a rubros con variaciones inesperadas como a aquellos que debieron variar y permanecieron estáticos (Pág. 3).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 2-3.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="b">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">b</div>
+          <div class="elemento-nombre">NIA 560 – Hechos posteriores al cierre</div>
+          <div class="elemento-paginas">Págs. 3-4</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define los hechos posteriores al cierre como aquellos ocurridos entre la fecha de los estados financieros y la fecha del informe de auditoría, así como los hechos conocidos por el auditor después de la fecha del informe (Pág. 3).</li>
+            <li>Precisa las cuatro fechas clave de la etapa de cierre: 1) Fecha de los estados financieros; 2) Fecha de aprobación de los estados financieros; 3) Fecha del informe de auditoría; y 4) Fecha de publicación de los estados financieros (Pág. 3).</li>
+            <li>Detalla los procedimientos obligatorios para revisar hechos posteriores: indagaciones ante la dirección y gobierno corporativo, lectura de actas de asambleas/juntas posteriores al cierre y revisión de los últimos estados financieros intermedios (Págs. 3-4).</li>
+            <li>Exige solicitar manifestaciones escritas a la dirección (conforme a la NIA 580) que ratifiquen que todos los hechos ocurridos tras el cierre que requerían ajuste o revelación han sido incorporados en los estados financieros (Pág. 4).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 3-4.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="c">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">c</div>
+          <div class="elemento-nombre">NIA 570 (Revisada) – Empresa en funcionamiento</div>
+          <div class="elemento-paginas">Págs. 4-5</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece la responsabilidad del auditor de obtener evidencia suficiente y adecuada para concluir sobre lo adecuado de la utilización, por parte de la dirección, del principio contable de empresa en funcionamiento (Pág. 4).</li>
+            <li>Obliga al auditor a concluir si existe alguna incertidumbre material respecto a la capacidad de la entidad para continuar operando en el futuro previsible (Pág. 4).</li>
+            <li>Aclara que estas responsabilidades aplican aun cuando el marco de información financiera utilizado no contenga un requerimiento explícito de que la dirección realice una valoración específica de la hipótesis de negocio en marcha (Pág. 4).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 4-5.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="d">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">d</div>
+          <div class="elemento-nombre">NIA 450 – Evaluación de las incorrecciones identificadas</div>
+          <div class="elemento-paginas">Págs. 5-6</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Dispone la responsabilidad de evaluar el efecto de las incorrecciones identificadas durante la auditoría y de las incorrecciones no corregidas sobre los estados financieros (Pág. 5).</li>
+            <li>Establece la estructuración del papel de trabajo "Diferencias de Auditoría" dividido en tres cédulas: Cédula 1 (Resumen de diferencias no corregidas), Cédula 2 (Resumen de diferencias corregidas por la entidad) y Cédula 3 (Resumen de omisiones o errores de presentación y revelación) (Págs. 5-6).</li>
+            <li>Exige comunicar las diferencias de auditoría a la administración para que proceda a su ajuste; si la gerencia no ajusta, las diferencias se acumulan evaluando el impacto según la materialidad (definida normalmente como el 5% de la utilidad antes de impuestos) antes de definir la modificación de la opinión (Pág. 6).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 5-6.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="e">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">e</div>
+          <div class="elemento-nombre">NIA 320 – Importancia relativa en la planificación y ejecución</div>
+          <div class="elemento-paginas">Pág. 5</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Se vincula con la NIA 450 y la NIA 700 para requerir la aplicación adecuada del concepto de importancia relativa en la evaluación agregada del impacto de los errores no corregidos sobre los estados financieros (Pág. 5).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 5.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="f">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">f</div>
+          <div class="elemento-nombre">NIA 580 – Manifestaciones escritas (Carta de Representación)</div>
+          <div class="elemento-paginas">Págs. 6-7</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Establece la responsabilidad de obtener manifestaciones escritas de la dirección y del gobierno corporativo que confirmen haber cumplido su responsabilidad en la preparación de los estados financieros e integridad de la información entregada (Pág. 6).</li>
+            <li>Define sus tres objetivos: 1) Obtener confirmación escrita de responsabilidades; 2) Fundamentar otra evidencia relevante; y 3) Responder adecuadamente ante la negativa o deficiencias en las manifestaciones recibidas (Pág. 6).</li>
+            <li>Dictamina que la fecha de la Carta de Representación será tan próxima como sea posible, pero nunca posterior, a la fecha del informe de auditoría, cubriendo todos los periodos analizados (Págs. 6-7).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 6-7.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="g">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">g</div>
+          <div class="elemento-nombre">Requerimientos de Calidad y Cierre de Documentación</div>
+          <div class="elemento-paginas">Págs. 6-10</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Carta a la Gerencia (Pág. 6): requiere la emisión de la carta de recomendaciones de control interno al cierre, incluyendo el seguimiento formal al cumplimiento de las recomendaciones emitidas en años anteriores.</li>
+            <li>Documento de Conclusión (Pág. 7): exige documentar los resultados de los procedimientos de conclusión, evaluar el logro de los objetivos asociados a riesgos significativos/fraude y realizar la evaluación final de independencia y ética.</li>
+            <li>Lista de Verificación de Auditoría (Págs. 7-8): recomienda diligenciar el checklist final para certificar el cumplimiento de las NIA y políticas de la firma, requiriendo la aprobación formal del socio, el gerente y, cuando corresponda, del revisor de control de calidad del encargo.</li>
+            <li>Verificaciones Adicionales de Cierre (Págs. 8-10): exige revisar comprobantes manuales para detectar asientos ficticios de última hora, verificar integridad aritmética y cruces de notas, revisar la concordancia de los libros oficiales e inspeccionar la estructura e integridad de los papeles de trabajo conforme a la NIA 230 (normas: NIA 220, 230, 240, 250, 260, 265, 330, 402, 610, 620).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 6-10.</p>
+        </div>
+      </div>
+
+      <div class="elemento" data-id="h">
+        <div class="elemento-cabecera" onclick="toggleElemento(this)">
+          <div class="elemento-letra">h</div>
+          <div class="elemento-nombre">NIA 700 / NIA 705 – Formación de la opinión y evaluación de EEFF</div>
+          <div class="elemento-paginas">Págs. 10-11</div>
+          <div class="chev">▶</div>
+        </div>
+        <div class="elemento-cuerpo">
+          <ul>
+            <li>Define los objetivos del auditor para formarse una opinión sobre los estados financieros basada en la evaluación de las conclusiones extraídas de la evidencia obtenida (Pág. 10).</li>
+            <li>Exige evaluar 6 aspectos clave: revelación de políticas contables significativas, consistencia de políticas aplicadas, razonabilidad de estimaciones, relevancia/fiabilidad/comparabilidad de la información, revelación adecuada del efecto de transacciones materiales y adecuación de la terminología y títulos (Pág. 11).</li>
+            <li>Establece la estructura de la Opinión No Modificada (Limpia) cuando los estados fueron preparados en todos los aspectos materiales según el marco aplicable, y remite a la NIA 705 para opiniones modificadas ante incorrecciones materiales o limitaciones al alcance (Pág. 11).</li>
+          </ul>
+          <p class="cita">Guía Cierre de Auditoría, pág. 10-11.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Conexión con el expediente de auditoría (papeles de trabajo)</div>
+    <div class="bloque-cuerpo">
+      <div class="caja-practica">
+        <strong>Del marco normativo a la práctica:</strong> toda la documentación generada en esta etapa corresponde a la Fase 5 (Finalización de la Auditoría y Emisión de Informes) y se archiva en la sección final del Archivo Corriente. Se integra en la carpeta de Cierre, la cual contiene la Cédula de Revisión Analítica Final de Balance y Resultados, el Memorando de Hechos Posteriores (NIA 560), la Cédula de Evaluación de Empresa en Funcionamiento (NIA 570), la Planilla de Diferencias de Auditoría (Cédulas 1, 2 y 3 - NIA 450), la Carta de Recomendaciones a la Gerencia, la Carta de Representación firmada por la dirección (NIA 580), el Papel de Trabajo Documento de Conclusión, y la Lista de Verificación de Auditoría (Checklist de Cierre) debidamente aprobada y firmada por el socio y el revisor de control de calidad.
+      </div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Autoevaluación</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.88rem;color:var(--texto-suave);margin-top:0;">Preguntas basadas en la guía de Cierre de Auditoría de Información Financiera.</p>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">1. Según la NIA 520 descrita en el módulo de cierre, ¿cuál es la finalidad de aplicar procedimientos analíticos en una fecha cercana a la finalización de la auditoría?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q1" value="a"> Sustituir la confirmación escrita de los saldos bancarios y de abogados.</label>
+          <label><input type="radio" name="q1" value="b"> Facilitar al auditor alcanzar una conclusión global sobre si los estados financieros son congruentes con su conocimiento de la entidad.</label>
+          <label><input type="radio" name="q1" value="c"> Determinar el importe exacto de los impuestos que el cliente debe pagar al Estado.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">2. Conforme a la NIA 580 (Manifestaciones Escritas), ¿cuál debe ser la fecha de la Carta de Representación suscrita por la gerencia al cierre de la auditoría?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q2" value="a"> El primer día del ejercicio contable que se está auditando.</label>
+          <label><input type="radio" name="q2" value="b"> Tan próxima como sea posible, pero no posterior, a la fecha del informe de auditoría sobre los estados financieros.</label>
+          <label><input type="radio" name="q2" value="c"> Treinta días después de haber entregado el informe a la asamblea de accionistas.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">3. De acuerdo con la NIA 450 y las plantillas de diferencias de auditoría descritas en la guía, ¿qué importe se menciona como referencia general para definir la materialidad en el estado de resultados?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q3" value="a"> El 20% del total de las ventas netas.</label>
+          <label><input type="radio" name="q3" value="b"> El 5% de la utilidad antes de impuestos.</label>
+          <label><input type="radio" name="q3" value="c"> El 10% del total del patrimonio bruto.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">4. ¿Qué establece la NIA 570 (Revisada) respecto a las responsabilidades del auditor sobre la hipótesis de empresa en funcionamiento?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q4" value="a"> El auditor únicamente evalúa el negocio en marcha si el marco contable exige explícitamente a la gerencia realizar una valoración específica.</label>
+          <label><input type="radio" name="q4" value="b"> El auditor debe obtener evidencia suficiente y adecuada y concluir sobre el uso del principio contable, aun cuando el marco financiero no contenga un requerimiento explícito para la gerencia.</label>
+          <label><input type="radio" name="q4" value="c"> El auditor garantiza por escrito la viabilidad económica de la empresa para los próximos diez años.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-pregunta" data-correcta="b">
+        <p class="enunciado">5. En relación con la Lista de Verificación de Auditoría (Checklist de Cierre) tratada en la guía, ¿cuáles son las aprobaciones requeridas antes de concluir el encargo?</p>
+        <div class="quiz-opciones">
+          <label><input type="radio" name="q5" value="a"> Únicamente la firma del contador general del cliente.</label>
+          <label><input type="radio" name="q5" value="b"> La revisión y aprobación del socio del encargo, el gerente y, cuando corresponda, del revisor de control de calidad del trabajo.</label>
+          <label><input type="radio" name="q5" value="c"> La autorización escrita emitida por la entidad reguladora del mercado de valores.</label>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <button class="btn" onclick="calificarQuiz()">Calificar autoevaluación</button>
+      <div id="quiz-resultado"></div>
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Checklist de repaso — Fase 5</div>
+    <div class="bloque-cuerpo" id="checklist">
+      <label class="chk"><input type="checkbox" data-item="1"> Sé aplicar procedimientos analíticos en la revisión final y explicar las variaciones detectadas (NIA 520).</label>
+      <label class="chk"><input type="checkbox" data-item="2"> Identifico las cuatro fechas clave del cierre y los procedimientos para revisar hechos posteriores (NIA 560).</label>
+      <label class="chk"><input type="checkbox" data-item="3"> Puedo evaluar la hipótesis de empresa en funcionamiento (NIA 570) y cuantificar diferencias de auditoría (NIA 450).</label>
+      <label class="chk"><input type="checkbox" data-item="4"> Conozco el contenido y oportunidad de la Carta de Representación (NIA 580).</label>
+      <label class="chk"><input type="checkbox" data-item="5"> Entiendo el protocolo de aprobación de la Lista de Verificación de Auditoría antes de emitir el dictamen.</label>
+    </div>
+  </section>
+
+  <div class="nav-fases">
+    <a href="modulo-4-procedimientos-sustantivos.html" style="color:var(--azul);text-decoration:none;">◀ Módulo 4 · Procedimientos Sustantivos</a>
+    <a href="modulo-6-dictamen-opinion.html" style="color:var(--azul);text-decoration:none;">Módulo 6 · Dictamen u Opinión ▶</a>
+  </div>
+
+</main>
+
+<footer>
+  Auditoría Financiera bajo NIA — Recurso de capacitación COHPUCP · Contenido basado en guías de estudio propias (NIA 520, 560, 570, 450, 320, 580, 700/705)
+</footer>
+
+<script>
+function toggleElemento(header){
+  const el = header.parentElement;
+  el.classList.toggle('abierto');
+  const cuerpo = el.querySelector('.elemento-cuerpo');
+  cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
+  guardarProgreso();
+}
+
+function calificarQuiz(){
+  const preguntas = document.querySelectorAll('.quiz-pregunta');
+  let correctas = 0;
+  preguntas.forEach(p=>{
+    const correcta = p.dataset.correcta;
+    const marcada = p.querySelector('input[type=radio]:checked');
+    const fb = p.querySelector('.quiz-feedback');
+    if(!marcada){
+      fb.className='quiz-feedback mal';
+      fb.textContent='No respondida.';
+      return;
+    }
+    if(marcada.value === correcta){
+      correctas++;
+      fb.className='quiz-feedback ok';
+      fb.textContent='Correcto.';
+    } else {
+      fb.className='quiz-feedback mal';
+      fb.textContent='Incorrecto. Revisa el elemento correspondiente arriba.';
+    }
+  });
+  const res = document.getElementById('quiz-resultado');
+  res.style.display='block';
+  res.style.background = correctas === preguntas.length ? '#e6f4ea' : '#fdf3e0';
+  res.style.color = correctas === preguntas.length ? '#2e7d4f' : '#5a4300';
+  res.textContent = `Resultado: ${correctas} de ${preguntas.length} correctas.`;
+  localStorage.setItem('afn_m5_quiz', correctas + '/' + preguntas.length);
+  guardarProgreso();
+}
+
+function guardarProgreso(){
+  const total = document.querySelectorAll('.checklist-item, #checklist input, .elemento').length;
+  const abiertos = document.querySelectorAll('.elemento.abierto').length;
+  const marcados = document.querySelectorAll('#checklist input:checked').length;
+  const quizHecho = localStorage.getItem('afn_m5_quiz') ? 1 : 0;
+  const totalPasos = 8 /*elementos*/ + 5 /*checklist*/ + 1 /*quiz*/;
+  const hechos = abiertos + marcados + quizHecho;
+  const pct = Math.round((hechos/totalPasos)*100);
+  document.getElementById('progreso-bar').style.width = pct+'%';
+  document.getElementById('progreso-txt').textContent = pct + ' % completado';
+  try{
+    const estado = {
+      abiertos: Array.from(document.querySelectorAll('.elemento.abierto')).map(e=>e.dataset.id),
+      checklist: Array.from(document.querySelectorAll('#checklist input:checked')).map(c=>c.dataset.item)
+    };
+    localStorage.setItem('afn_m5_estado', JSON.stringify(estado));
+  }catch(e){}
+}
+
+document.querySelectorAll('#checklist input').forEach(c=>c.addEventListener('change', guardarProgreso));
+
+try{
+  const estado = JSON.parse(localStorage.getItem('afn_m5_estado') || 'null');
+  if(estado){
+    estado.checklist.forEach(id=>{
+      const el = document.querySelector(`#checklist input[data-item="${id}"]`);
+      if(el) el.checked = true;
+    });
+  }
+}catch(e){}
+
+guardarProgreso();
+</script>
+
+</body>
+</html>
