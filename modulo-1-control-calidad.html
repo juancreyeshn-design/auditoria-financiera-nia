@@ -134,6 +134,74 @@
   .elemento-cuerpo li{margin-bottom:6px;}
   .cita{color:var(--texto-suave);font-size:.8rem;}
 
+  /* --- overview tiles (mapa visual de los 6 elementos) --- */
+  .overview-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:4px 0 18px;
+  }
+  @media(max-width:600px){.overview-grid{grid-template-columns:repeat(2,1fr);}}
+  .overview-tile{
+    border-radius:10px;
+    padding:14px 10px;
+    text-align:center;
+    cursor:pointer;
+    color:#fff;
+    font-size:.78rem;
+    font-weight:700;
+    line-height:1.3;
+    transition:transform .15s ease,box-shadow .15s ease;
+    border:none;
+  }
+  .overview-tile:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(11,61,99,.25);}
+  .overview-tile .icono{font-size:1.7rem;display:block;margin-bottom:6px;}
+  .overview-tile.cat-a{background:linear-gradient(135deg,#0b3d63,#1a5c8f);}
+  .overview-tile.cat-b{background:linear-gradient(135deg,#8a6d00,#d4a017);}
+  .overview-tile.cat-c{background:linear-gradient(135deg,#1f6b45,#2e9e63);}
+  .overview-tile.cat-d{background:linear-gradient(135deg,#1d6f7a,#2ba5b5);}
+  .overview-tile.cat-e{background:linear-gradient(135deg,#3a2f6b,#5b3a8a);}
+  .overview-tile.cat-f{background:linear-gradient(135deg,#6b1f3a,#a02b52);}
+
+  .elemento-letra.cat-a{background:#0b3d63;}
+  .elemento-letra.cat-b{background:#a9800a;}
+  .elemento-letra.cat-c{background:#1f6b45;}
+  .elemento-letra.cat-d{background:#1d6f7a;}
+  .elemento-letra.cat-e{background:#5b3a8a;}
+  .elemento-letra.cat-f{background:#a02b52;}
+
+  /* --- línea de tiempo de las 4 fases de auditoría --- */
+  .fase-timeline{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin:12px 0;
+    flex-wrap:wrap;
+  }
+  .fase-step{
+    flex:1;
+    min-width:110px;
+    background:var(--azul-claro);
+    border:1px solid var(--borde);
+    border-radius:8px;
+    padding:10px 8px;
+    text-align:center;
+    font-size:.78rem;
+    font-weight:700;
+    color:var(--azul-oscuro);
+  }
+  .fase-arrow{color:var(--dorado);font-size:1.1rem;flex:0 0 auto;}
+  @media(max-width:600px){.fase-timeline{flex-direction:column;}.fase-arrow{transform:rotate(90deg);}}
+
+  /* --- grid de íconos (amenazas a la independencia) --- */
+  .amenaza-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px;margin:10px 0;}
+  .amenaza-item{background:var(--azul-claro);border-radius:8px;padding:10px 8px;text-align:center;font-size:.76rem;color:var(--azul-oscuro);font-weight:600;}
+  .amenaza-item .icono{font-size:1.3rem;display:block;margin-bottom:4px;}
+
+  /* --- grid de tarjetas de verificación (aceptación de clientes) --- */
+  .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0;}
+  .check-card{background:#fbfcfe;border:1px solid var(--borde);border-left:4px solid var(--verde);border-radius:6px;padding:8px 10px;font-size:.82rem;}
+
   label.chk{
     display:flex;
     gap:10px;
@@ -260,10 +328,20 @@
     <div class="bloque-titulo">Los 6 elementos del Control de Calidad (NICC 1)</div>
     <div class="bloque-cuerpo" id="lista-elementos">
 
+      <p style="font-size:.85rem;color:var(--texto-suave);margin-top:0;">Toca un bloque para ir directo a ese elemento:</p>
+      <div class="overview-grid">
+        <div class="overview-tile cat-a" onclick="irAElemento('a')"><span class="icono">👑</span>a) Liderazgo y calidad</div>
+        <div class="overview-tile cat-b" onclick="irAElemento('b')"><span class="icono">⚖️</span>b) Ética e independencia</div>
+        <div class="overview-tile cat-c" onclick="irAElemento('c')"><span class="icono">🤝</span>c) Aceptación de clientes</div>
+        <div class="overview-tile cat-d" onclick="irAElemento('d')"><span class="icono">👥</span>d) Recursos humanos</div>
+        <div class="overview-tile cat-e" onclick="irAElemento('e')"><span class="icono">🛠️</span>e) Ejecución del trabajo</div>
+        <div class="overview-tile cat-f" onclick="irAElemento('f')"><span class="icono">🔍</span>f) Monitoreo</div>
+      </div>
+
       <div class="elemento" data-id="a">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">a</div>
-          <div class="elemento-nombre">Responsabilidad de los líderes de la firma sobre la calidad</div>
+          <div class="elemento-letra cat-a">a</div>
+          <div class="elemento-nombre">👑 Responsabilidad de los líderes de la firma sobre la calidad</div>
           <div class="elemento-paginas">NICC 1</div>
           <div class="chev">▶</div>
         </div>
@@ -275,15 +353,24 @@
 
       <div class="elemento" data-id="b">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">b</div>
-          <div class="elemento-nombre">Requisitos éticos relevantes</div>
+          <div class="elemento-letra cat-b">b</div>
+          <div class="elemento-nombre">⚖️ Requisitos éticos relevantes</div>
           <div class="elemento-paginas">NICC 1 / IESBA 290–291</div>
           <div class="chev">▶</div>
         </div>
         <div class="elemento-cuerpo">
           <p>Exige políticas y procedimientos para asegurar el cumplimiento de los principios éticos fundamentales. Desarrolla tres aspectos clave:</p>
+          <p><strong>Independencia — cinco amenazas a evaluar (NICC 1 / IESBA 290–291):</strong></p>
+          <div class="amenaza-grid">
+            <div class="amenaza-item"><span class="icono">💰</span>Interés propio</div>
+            <div class="amenaza-item"><span class="icono">🔁</span>Autorrevisión</div>
+            <div class="amenaza-item"><span class="icono">📣</span>Abogacía</div>
+            <div class="amenaza-item"><span class="icono">🤝</span>Familiaridad</div>
+            <div class="amenaza-item"><span class="icono">⚠️</span>Intimidación</div>
+          </div>
           <ul>
-            <li><strong>Independencia:</strong> seguridad razonable de mantenerla, evaluando amenazas (interés propio, autorrevisión, abogacía, familiaridad, intimidación); confirmación escrita de independencia al menos una vez al año; cumplimiento de las Secciones 290 y 291 del Código del IESBA; rotación obligatoria con periodo de enfriamiento generalmente de 2 años para entidades listadas.</li>
+            <li>Confirmación escrita de independencia al menos una vez al año; cumplimiento de las Secciones 290 y 291 del Código del IESBA.</li>
+            <li>Rotación obligatoria con periodo de enfriamiento generalmente de 2 años para entidades listadas.</li>
             <li><strong>Conflicto de intereses:</strong> responsabilidades para identificar, documentar y tratar conflictos de intereses.</li>
             <li><strong>Confidencialidad:</strong> protección y custodia de la información del cliente obtenida durante el encargo.</li>
           </ul>
@@ -293,26 +380,29 @@
 
       <div class="elemento" data-id="c">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">c</div>
-          <div class="elemento-nombre">Aceptación y retención de clientes y trabajos específicos</div>
+          <div class="elemento-letra cat-c">c</div>
+          <div class="elemento-nombre">🤝 Aceptación y retención de clientes y trabajos específicos</div>
           <div class="elemento-paginas">NICC 1</div>
           <div class="chev">▶</div>
         </div>
         <div class="elemento-cuerpo">
-          <ul>
-            <li>Evaluar la capacidad, competencia y recursos de la firma, el cumplimiento ético y la integridad del cliente antes de aceptar el encargo.</li>
-            <li>Evitar clientes vinculados a condenas, sanciones, sospechas de actos ilícitos o fraude, o investigaciones en curso.</li>
-            <li>Consultar listas de control (ej. Lista Clinton / SDN list) y comunicarse con el auditor anterior antes de proponerse a un nuevo cliente.</li>
-            <li>Evaluación formal para clientes recurrentes y protocolos para la renuncia al encargo si surgen causas justificadas.</li>
-          </ul>
+          <p>Antes de aceptar o continuar un encargo, la firma debe verificar:</p>
+          <div class="check-grid">
+            <div class="check-card">✅ Capacidad, competencia y recursos suficientes de la firma</div>
+            <div class="check-card">✅ Cumplimiento ético e integridad del cliente</div>
+            <div class="check-card">🚫 Sin vínculos con condenas, sanciones, fraude o investigaciones en curso</div>
+            <div class="check-card">🔎 Listas de control consultadas (ej. Lista Clinton/SDN)</div>
+            <div class="check-card">📞 Contacto con el auditor anterior antes de proponerse</div>
+            <div class="check-card">🔄 Evaluación formal para clientes recurrentes, con protocolo de renuncia si hay causa justificada</div>
+          </div>
           <p class="cita">NICC 1 — Aceptación y retención de clientes y trabajos específicos.</p>
         </div>
       </div>
 
       <div class="elemento" data-id="d">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">d</div>
-          <div class="elemento-nombre">Recursos humanos</div>
+          <div class="elemento-letra cat-d">d</div>
+          <div class="elemento-nombre">👥 Recursos humanos</div>
           <div class="elemento-paginas">NICC 1 / IES 7–8</div>
           <div class="chev">▶</div>
         </div>
@@ -329,15 +419,23 @@
 
       <div class="elemento" data-id="e">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">e</div>
-          <div class="elemento-nombre">Ejecución de los compromisos (desempeño del trabajo)</div>
+          <div class="elemento-letra cat-e">e</div>
+          <div class="elemento-nombre">🛠️ Ejecución de los compromisos (desempeño del trabajo)</div>
           <div class="elemento-paginas">NICC 1 / NIA 230</div>
           <div class="chev">▶</div>
         </div>
         <div class="elemento-cuerpo">
           <ul>
             <li>Promover calidad uniforme mediante manuales, plantillas estándar y políticas de planificación y supervisión.</li>
-            <li>La metodología de auditoría se organiza en cuatro fases: <strong>Planeación, Entendimiento de procesos, Procedimientos sustantivos y Cierre</strong> — el hilo conductor de los módulos 2 a 6 de este curso.</li>
+            <li>La metodología de auditoría se organiza en cuatro fases — el hilo conductor de los módulos 2 a 6 de este curso:</li>
+          </ul>
+          <div class="fase-timeline">
+            <div class="fase-step">1. Planeación</div><div class="fase-arrow">→</div>
+            <div class="fase-step">2. Entendimiento de procesos</div><div class="fase-arrow">→</div>
+            <div class="fase-step">3. Procedimientos sustantivos</div><div class="fase-arrow">→</div>
+            <div class="fase-step">4. Cierre</div>
+          </div>
+          <ul>
             <li>Cumplimiento de la documentación de auditoría conforme a la NIA 230.</li>
             <li>Conformación de equipos multidisciplinarios asignados todo el año, incluyendo especialistas cuando corresponda.</li>
           </ul>
@@ -347,8 +445,8 @@
 
       <div class="elemento" data-id="f">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">f</div>
-          <div class="elemento-nombre">Monitoreo</div>
+          <div class="elemento-letra cat-f">f</div>
+          <div class="elemento-nombre">🔍 Monitoreo</div>
           <div class="elemento-paginas">NICC 1</div>
           <div class="chev">▶</div>
         </div>
@@ -463,6 +561,15 @@ function toggleElemento(header){
   const cuerpo = el.querySelector('.elemento-cuerpo');
   cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
   guardarProgreso();
+}
+
+function irAElemento(id){
+  const el = document.querySelector(`.elemento[data-id="${id}"]`);
+  if(!el) return;
+  if(!el.classList.contains('abierto')){
+    toggleElemento(el.querySelector('.elemento-cabecera'));
+  }
+  el.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 function calificarQuiz(){
