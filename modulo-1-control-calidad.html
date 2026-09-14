@@ -202,6 +202,17 @@
   .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0;}
   .check-card{background:#fbfcfe;border:1px solid var(--borde);border-left:4px solid var(--verde);border-radius:6px;padding:8px 10px;font-size:.82rem;}
 
+  /* --- grid de tarjetas de ejemplos por industria --- */
+  .ejemplo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:10px 0;}
+  .ejemplo-card{background:#fbfcfe;border:1px solid var(--borde);border-left:4px solid var(--azul-oscuro);border-radius:8px;padding:12px 14px;font-size:.85rem;}
+  .ejemplo-card.variante-b{border-left-color:var(--dorado);}
+  .ejemplo-card.correcto{border-left-color:var(--verde);}
+  .ejemplo-card.alerta{border-left-color:var(--rojo, #b3261e);}
+  .ejemplo-header{font-weight:700;color:var(--azul-oscuro);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .ejemplo-card p{margin:0;color:var(--texto);}
+  .ejemplo-card ul{margin:4px 0 0;padding-left:18px;}
+  .ejemplo-card li{margin-bottom:6px;}
+
   label.chk{
     display:flex;
     gap:10px;
@@ -460,6 +471,23 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Ejemplos por industria</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.85rem;color:var(--texto-suave);margin-top:0;">Casos concretos para bajar la teoría a la práctica:</p>
+      <div class="ejemplo-grid">
+        <div class="ejemplo-card alerta">
+          <div class="ejemplo-header">🚩 Amenaza a la independencia detectada</div>
+          <p>Industria (Banca / Servicios financieros): un socio del equipo de auditoría mantiene una cuenta de inversión con montos significativos en la misma entidad que se va a auditar — una amenaza de interés propio que exige aplicar una salvaguarda (retirar al socio del equipo del encargo) antes de continuar.</p>
+        </div>
+        <div class="ejemplo-card variante-b">
+          <div class="ejemplo-header">🤝 Decisión de continuidad de un cliente recurrente</div>
+          <p>Industria (Construcción / Bienes raíces): al evaluar la continuidad de un cliente recurrente, la firma detecta un cambio reciente de auditor externo sin explicación documentada por parte de la gerencia — se decide profundizar la indagación con el auditor anterior antes de ratificar la continuidad del encargo.</p>
+        </div>
+      </div>
     </div>
   </section>
 
