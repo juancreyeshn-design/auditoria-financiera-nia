@@ -227,6 +227,61 @@
     .elemento-paginas{display:none;}
     h1{font-size:1.3rem;}
   }
+
+  /* --- overview tiles (mapa visual de elementos) --- */
+  .overview-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin:4px 0 18px;
+  }
+  @media(max-width:600px){.overview-grid{grid-template-columns:repeat(2,1fr);}}
+  .overview-tile{
+    border-radius:10px;
+    padding:14px 10px;
+    text-align:center;
+    cursor:pointer;
+    color:#fff;
+    font-size:.78rem;
+    font-weight:700;
+    line-height:1.3;
+    transition:transform .15s ease,box-shadow .15s ease;
+    border:none;
+  }
+  .overview-tile:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(11,61,99,.25);}
+  .overview-tile .icono{font-size:1.7rem;display:block;margin-bottom:6px;}
+  .overview-tile.cat-a{background:linear-gradient(135deg,#0b3d63,#1a5c8f);}
+  .overview-tile.cat-b{background:linear-gradient(135deg,#8a6d00,#d4a017);}
+  .overview-tile.cat-c{background:linear-gradient(135deg,#1f6b45,#2e9e63);}
+  .overview-tile.cat-d{background:linear-gradient(135deg,#1d6f7a,#2ba5b5);}
+  .overview-tile.cat-e{background:linear-gradient(135deg,#3a2f6b,#5b3a8a);}
+  .overview-tile.cat-f{background:linear-gradient(135deg,#6b1f3a,#a02b52);}
+  .overview-tile.cat-g{background:linear-gradient(135deg,#4a5568,#718096);}
+  .overview-tile.cat-h{background:linear-gradient(135deg,#7c4a03,#b3701a);}
+  .overview-tile.cat-i{background:linear-gradient(135deg,#0f5132,#146c43);}
+  .overview-tile.cat-j{background:linear-gradient(135deg,#5c2e91,#8e44ad);}
+
+  .elemento-letra.cat-a{background:#0b3d63;}
+  .elemento-letra.cat-b{background:#a9800a;}
+  .elemento-letra.cat-c{background:#1f6b45;}
+  .elemento-letra.cat-d{background:#1d6f7a;}
+  .elemento-letra.cat-e{background:#5b3a8a;}
+  .elemento-letra.cat-f{background:#a02b52;}
+  .elemento-letra.cat-g{background:#4a5568;}
+  .elemento-letra.cat-h{background:#b3701a;}
+  .elemento-letra.cat-i{background:#146c43;}
+  .elemento-letra.cat-j{background:#8e44ad;}
+
+  /* --- grid de tarjetas de ejemplos por industria --- */
+  .ejemplo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:10px 0;}
+  .ejemplo-card{background:#fbfcfe;border:1px solid var(--borde);border-left:4px solid var(--azul-oscuro);border-radius:8px;padding:12px 14px;font-size:.85rem;}
+  .ejemplo-card.variante-b{border-left-color:var(--dorado);}
+  .ejemplo-card.correcto{border-left-color:var(--verde);}
+  .ejemplo-card.alerta{border-left-color:var(--rojo, #b3261e);}
+  .ejemplo-header{font-weight:700;color:var(--azul-oscuro);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .ejemplo-card p{margin:0;color:var(--texto);}
+  .ejemplo-card ul{margin:4px 0 0;padding-left:18px;}
+  .ejemplo-card li{margin-bottom:6px;}
 </style>
 </head>
 <body>
@@ -260,9 +315,23 @@
     <div class="bloque-titulo">Los 10 elementos normativos de los Procedimientos Sustantivos</div>
     <div class="bloque-cuerpo" id="lista-elementos">
 
+      <p style="font-size:.85rem;color:var(--texto-suave);margin-top:0;">Toca un bloque para ir directo a ese elemento:</p>
+      <div class="overview-grid">
+        <div class="overview-tile cat-a" onclick="irAElemento('a')"><span class="icono">📋</span>a) Aseveraciones y riesgos</div>
+        <div class="overview-tile cat-b" onclick="irAElemento('b')"><span class="icono">🚩</span>b) Fraude en auditoría</div>
+        <div class="overview-tile cat-c" onclick="irAElemento('c')"><span class="icono">⚖️</span>c) Riesgo de auditoría</div>
+        <div class="overview-tile cat-d" onclick="irAElemento('d')"><span class="icono">🔍</span>d) Evidencia de auditoría</div>
+        <div class="overview-tile cat-e" onclick="irAElemento('e')"><span class="icono">🎯</span>e) Respuesta a riesgos</div>
+        <div class="overview-tile cat-f" onclick="irAElemento('f')"><span class="icono">🧾</span>f) Confirmaciones externas</div>
+        <div class="overview-tile cat-g" onclick="irAElemento('g')"><span class="icono">📊</span>g) Procedimientos analíticos</div>
+        <div class="overview-tile cat-h" onclick="irAElemento('h')"><span class="icono">🧮</span>h) Pruebas de detalle</div>
+        <div class="overview-tile cat-i" onclick="irAElemento('i')"><span class="icono">🎲</span>i) Muestreo de auditoría</div>
+        <div class="overview-tile cat-j" onclick="irAElemento('j')"><span class="icono">💰</span>j) Estimaciones contables</div>
+      </div>
+
       <div class="elemento" data-id="a">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">a</div>
+          <div class="elemento-letra cat-a">a</div>
           <div class="elemento-nombre">NIA 315 – Aseveraciones y riesgos de error material</div>
           <div class="elemento-paginas">NIA 315</div>
           <div class="chev">▶</div>
@@ -280,7 +349,7 @@
 
       <div class="elemento" data-id="b">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">b</div>
+          <div class="elemento-letra cat-b">b</div>
           <div class="elemento-nombre">NIA 240 – Responsabilidades del auditor con respecto al fraude</div>
           <div class="elemento-paginas">NIA 240</div>
           <div class="chev">▶</div>
@@ -298,7 +367,7 @@
 
       <div class="elemento" data-id="c">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">c</div>
+          <div class="elemento-letra cat-c">c</div>
           <div class="elemento-nombre">NIA 200 – Objetivos generales del auditor y riesgo de auditoría</div>
           <div class="elemento-paginas">NIA 200</div>
           <div class="chev">▶</div>
@@ -314,7 +383,7 @@
 
       <div class="elemento" data-id="d">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">d</div>
+          <div class="elemento-letra cat-d">d</div>
           <div class="elemento-nombre">NIA 500 – Evidencia de auditoría</div>
           <div class="elemento-paginas">NIA 500</div>
           <div class="chev">▶</div>
@@ -332,7 +401,7 @@
 
       <div class="elemento" data-id="e">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">e</div>
+          <div class="elemento-letra cat-e">e</div>
           <div class="elemento-nombre">NIA 330 – Respuestas del auditor a los riesgos valorados</div>
           <div class="elemento-paginas">NIA 330</div>
           <div class="chev">▶</div>
@@ -349,7 +418,7 @@
 
       <div class="elemento" data-id="f">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">f</div>
+          <div class="elemento-letra cat-f">f</div>
           <div class="elemento-nombre">NIA 505 – Confirmaciones externas</div>
           <div class="elemento-paginas">NIA 505</div>
           <div class="chev">▶</div>
@@ -366,7 +435,7 @@
 
       <div class="elemento" data-id="g">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">g</div>
+          <div class="elemento-letra cat-g">g</div>
           <div class="elemento-nombre">NIA 520 – Procedimientos analíticos</div>
           <div class="elemento-paginas">NIA 520</div>
           <div class="chev">▶</div>
@@ -384,7 +453,7 @@
 
       <div class="elemento" data-id="h">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">h</div>
+          <div class="elemento-letra cat-h">h</div>
           <div class="elemento-nombre">Pruebas de Detalle y Métodos de Selección</div>
           <div class="elemento-paginas">Pruebas de detalle</div>
           <div class="chev">▶</div>
@@ -400,7 +469,7 @@
 
       <div class="elemento" data-id="i">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">i</div>
+          <div class="elemento-letra cat-i">i</div>
           <div class="elemento-nombre">NIA 530 – Muestreo de auditoría</div>
           <div class="elemento-paginas">NIA 530</div>
           <div class="chev">▶</div>
@@ -418,7 +487,7 @@
 
       <div class="elemento" data-id="j">
         <div class="elemento-cabecera" onclick="toggleElemento(this)">
-          <div class="elemento-letra">j</div>
+          <div class="elemento-letra cat-j">j</div>
           <div class="elemento-nombre">NIA 540 – Auditoría de estimaciones contables</div>
           <div class="elemento-paginas">NIA 540</div>
           <div class="chev">▶</div>
@@ -434,6 +503,23 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <section class="bloque">
+    <div class="bloque-titulo">Ejemplos por industria</div>
+    <div class="bloque-cuerpo">
+      <p style="font-size:.85rem;color:var(--texto-suave);margin-top:0;">Casos concretos para bajar la teoría a la práctica:</p>
+      <div class="ejemplo-grid">
+        <div class="ejemplo-card alerta">
+          <div class="ejemplo-header">🚩 Hallazgo típico en confirmación de saldos por cobrar</div>
+          <p>Industria (Distribución / Mayoristas): el auditor envía confirmaciones positivas a los principales clientes y recibe una excepción material — el cliente reporta un saldo menor al registrado en libros por una nota de crédito no aplicada — lo que exige ampliar procedimientos alternativos (revisión de cobros posteriores y documentación de despacho) antes de concluir sobre la razonabilidad del saldo.</p>
+        </div>
+        <div class="ejemplo-card variante-b">
+          <div class="ejemplo-header">📦 Procedimiento sustantivo típico sobre inventarios</div>
+          <p>Industria (Manufactura / Agroindustria): el auditor asiste físicamente al conteo de inventario de fin de año, realiza conteos de prueba (test counts) sobre una muestra de artículos de alto valor y compara los resultados contra los registros de la entidad, además de evaluar la existencia de inventario de lenta rotación u obsoleto que requiera una provisión por deterioro.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -535,6 +621,15 @@ function toggleElemento(header){
   const cuerpo = el.querySelector('.elemento-cuerpo');
   cuerpo.style.maxHeight = el.classList.contains('abierto') ? cuerpo.scrollHeight + 'px' : '0';
   guardarProgreso();
+}
+
+function irAElemento(id){
+  const el = document.querySelector(`.elemento[data-id="${id}"]`);
+  if(!el) return;
+  if(!el.classList.contains('abierto')){
+    toggleElemento(el.querySelector('.elemento-cabecera'));
+  }
+  el.scrollIntoView({behavior:'smooth', block:'center'});
 }
 
 function calificarQuiz(){
