@@ -49,6 +49,18 @@
       + "#cv-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:8px;"
       + "font-size:1.1rem;cursor:pointer;flex-shrink:0;line-height:1;}"
       + "#cv-close:hover{background:rgba(255,255,255,.3);}"
+      + "#cv-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;"
+      + "background:var(--azul-claro,#e8f1f8);padding:8px 14px;flex-shrink:0;border-bottom:1px solid var(--borde,#dbe4ec);}"
+      + "#cv-nav-index{background:var(--blanco,#fff);border:1px solid var(--borde,#dbe4ec);color:var(--azul-oscuro,#0b3d63);"
+      + "padding:6px 12px;font-size:.8rem;font-weight:700;cursor:pointer;border-radius:8px;}"
+      + "#cv-nav-index:hover{background:var(--azul-oscuro,#0b3d63);color:#fff;}"
+      + "#cv-nav-pager{display:flex;align-items:center;gap:10px;}"
+      + "#cv-nav-pager button{background:var(--blanco,#fff);border:1px solid var(--borde,#dbe4ec);"
+      + "color:var(--azul-oscuro,#0b3d63);padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer;border-radius:8px;}"
+      + "#cv-nav-pager button:hover:not(:disabled){background:var(--azul-oscuro,#0b3d63);color:#fff;}"
+      + "#cv-nav-pager button:disabled{opacity:.4;cursor:default;}"
+      + "#cv-nav-position{font-size:.76rem;color:var(--texto-suave,#5a6b78);font-weight:600;white-space:nowrap;}"
+      + "@media (max-width:600px){#cv-nav{justify-content:flex-start;}#cv-nav-pager{width:100%;justify-content:space-between;}}"
       + "#cv-tabs{display:flex;gap:4px;background:var(--fondo,#f4f7fa);padding:8px 12px 0;flex-shrink:0;"
       + "overflow-x:auto;border-bottom:1px solid var(--borde,#dbe4ec);}"
       + "#cv-tabs button{border:1px solid var(--borde,#dbe4ec);border-bottom:none;background:#fff;"
@@ -93,6 +105,14 @@
       "    </div>" +
       '    <button id="cv-close" title="Cerrar" aria-label="Cerrar">✕</button>' +
       "  </div>" +
+      '  <div id="cv-nav">' +
+      '    <button id="cv-nav-index" type="button">☰ Índice completo</button>' +
+      '    <div id="cv-nav-pager">' +
+      '      <button id="cv-nav-prev" type="button" disabled>← Anterior</button>' +
+      '      <span id="cv-nav-position"></span>' +
+      '      <button id="cv-nav-next" type="button" disabled>Siguiente →</button>' +
+      "    </div>" +
+      "  </div>" +
       '  <div id="cv-tabs"></div>' +
       '  <div id="cv-body"><div id="cv-status">Cargando…</div></div>' +
       '  <div id="cv-footer">' +
@@ -107,6 +127,9 @@
       if (e.target === overlay) closeModal();
     });
     document.getElementById("cv-close").addEventListener("click", closeModal);
+    document.getElementById("cv-nav-index").addEventListener("click", function () {
+      openFolderBrowser();
+    });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && overlay.classList.contains("cv-open")) closeModal();
     });
@@ -114,7 +137,9 @@
   }
 
   var overlayEl, titleEl, subtitleEl, tabsEl, bodyEl, githubLinkEl, downloadLinkEl;
+  var navPagerEl, navPrevBtn, navNextBtn, navPositionEl;
   var scrollLockY = 0;
+  var orderedFilesPromise = null;
 
   function ensureModal() {
     if (overlayEl) return;
@@ -126,6 +151,52 @@
     bodyEl = document.getElementById("cv-body");
     githubLinkEl = document.getElementById("cv-github-link");
     downloadLinkEl = document.getElementById("cv-download-link");
+    navPagerEl = document.getElementById("cv-nav-pager");
+    navPrevBtn = document.getElementById("cv-nav-prev");
+    navNextBtn = document.getElementById("cv-nav-next");
+    navPositionEl = document.getElementById("cv-nav-position");
+  }
+
+  function getOrderedFiles() {
+    if (orderedFilesPromise) return orderedFilesPromise;
+    orderedFilesPromise = fetchTree().then(function (groups) {
+      var folders = Object.keys(groups).sort();
+      var files = [];
+      folders.forEach(function (folder) {
+        groups[folder].slice().sort().forEach(function (path) { files.push(path); });
+      });
+      return files;
+    });
+    return orderedFilesPromise;
+  }
+
+  function setPagerVisible(visible) {
+    if (!navPagerEl) return;
+    navPagerEl.style.display = visible ? "flex" : "none";
+  }
+
+  function updatePagerForFile(path) {
+    setPagerVisible(true);
+    navPositionEl.textContent = "";
+    navPrevBtn.disabled = true;
+    navNextBtn.disabled = true;
+    navPrevBtn.onclick = null;
+    navNextBtn.onclick = null;
+    getOrderedFiles()
+      .then(function (files) {
+        var idx = files.indexOf(path);
+        if (idx === -1) return;
+        navPositionEl.textContent = "Cédula " + (idx + 1) + " de " + files.length;
+        if (idx > 0) {
+          navPrevBtn.disabled = false;
+          navPrevBtn.onclick = function () { openFileViewer(files[idx - 1]); };
+        }
+        if (idx < files.length - 1) {
+          navNextBtn.disabled = false;
+          navNextBtn.onclick = function () { openFileViewer(files[idx + 1]); };
+        }
+      })
+      .catch(function () { /* sin índice disponible: el pager queda deshabilitado */ });
   }
 
   function openModal() {
@@ -203,6 +274,7 @@
     downloadLinkEl.href = "#";
     downloadLinkEl.removeAttribute("download");
     setStatus("Cargando cédula…");
+    updatePagerForFile(path);
 
     Promise.all([loadSheetJs(), fetchFileBytes(path)])
       .then(function (results) {
@@ -254,6 +326,7 @@
     githubLinkEl.href = REPO_ROOT_HTTPS;
     downloadLinkEl.href = "#";
     downloadLinkEl.removeAttribute("download");
+    setPagerVisible(false);
     setStatus("Cargando índice del expediente…");
 
     fetchTree()
