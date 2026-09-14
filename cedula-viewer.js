@@ -116,9 +116,7 @@
       '  <div id="cv-tabs"></div>' +
       '  <div id="cv-body"><div id="cv-status">Cargando…</div></div>' +
       '  <div id="cv-footer">' +
-      '    <a id="cv-github-link" href="#" target="_blank" rel="noopener">Abrir en GitHub ↗</a>' +
-      '    <a id="cv-download-link" href="#" download>Descargar .xlsx ⭳</a>' +
-      "    <span>El progreso de este módulo no se pierde al cerrar este panel.</span>" +
+      "    <span>Contenido de solo lectura. El progreso de este módulo no se pierde al cerrar este panel.</span>" +
       "  </div>" +
       "</div>";
     document.body.appendChild(overlay);
@@ -136,7 +134,7 @@
     return overlay;
   }
 
-  var overlayEl, titleEl, subtitleEl, tabsEl, bodyEl, githubLinkEl, downloadLinkEl;
+  var overlayEl, titleEl, subtitleEl, tabsEl, bodyEl;
   var navPagerEl, navPrevBtn, navNextBtn, navPositionEl;
   var scrollLockY = 0;
   var orderedFilesPromise = null;
@@ -149,8 +147,6 @@
     subtitleEl = document.getElementById("cv-subtitle");
     tabsEl = document.getElementById("cv-tabs");
     bodyEl = document.getElementById("cv-body");
-    githubLinkEl = document.getElementById("cv-github-link");
-    downloadLinkEl = document.getElementById("cv-download-link");
     navPagerEl = document.getElementById("cv-nav-pager");
     navPrevBtn = document.getElementById("cv-nav-prev");
     navNextBtn = document.getElementById("cv-nav-next");
@@ -270,9 +266,6 @@
     openModal();
     titleEl.textContent = displayTitle || friendlyName(path);
     subtitleEl.textContent = path;
-    githubLinkEl.href = REPO_ROOT_HTTPS + "/blob/main/" + path.split("/").map(encodeURIComponent).join("/");
-    downloadLinkEl.href = "#";
-    downloadLinkEl.removeAttribute("download");
     setStatus("Cargando cédula…");
     updatePagerForFile(path);
 
@@ -282,18 +275,11 @@
         var buf = results[1];
         var workbook = XLSX.read(buf, { type: "array", cellStyles: true });
         renderWorkbook(workbook);
-        try {
-          var blob = new Blob([buf], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          });
-          downloadLinkEl.href = URL.createObjectURL(blob);
-          downloadLinkEl.setAttribute("download", path.split("/").pop());
-        } catch (e) { /* descarga directa no disponible, el enlace a GitHub sigue funcionando */ }
       })
       .catch(function (err) {
         setStatus(
           "No se pudo cargar esta cédula (" + (err && err.message ? err.message : "error de red") + "). " +
-            'Puede abrirla directamente en <a href="' + githubLinkEl.href + '" target="_blank" rel="noopener">GitHub</a>.',
+            "Cierre este panel e intente de nuevo.",
           true
         );
       });
@@ -323,9 +309,6 @@
     openModal();
     titleEl.textContent = "Expediente de auditoría — 87 cédulas";
     subtitleEl.textContent = REPO_OWNER + "/" + REPO_NAME;
-    githubLinkEl.href = REPO_ROOT_HTTPS;
-    downloadLinkEl.href = "#";
-    downloadLinkEl.removeAttribute("download");
     setPagerVisible(false);
     setStatus("Cargando índice del expediente…");
 
@@ -356,7 +339,7 @@
       .catch(function (err) {
         setStatus(
           "No se pudo cargar el índice (" + (err && err.message ? err.message : "error de red") + "). " +
-            'Puede explorarlo directamente en <a href="' + REPO_ROOT_HTTPS + '" target="_blank" rel="noopener">GitHub</a>.',
+            "Cierre este panel e intente de nuevo.",
           true
         );
       });
