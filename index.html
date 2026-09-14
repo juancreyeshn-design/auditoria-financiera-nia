@@ -105,6 +105,20 @@
     font-size:.9rem;
   }
   .fase-card.bloqueada .fase-num{background:#9fb3c2;}
+  .fase-card{border-top:4px solid var(--azul-oscuro);}
+  .fase-card.cat-a{border-top-color:#0b3d63;}
+  .fase-card.cat-a .fase-num{background:linear-gradient(135deg,#0b3d63,#1a5c8f);}
+  .fase-card.cat-b{border-top-color:#d4a017;}
+  .fase-card.cat-b .fase-num{background:linear-gradient(135deg,#8a6d00,#d4a017);}
+  .fase-card.cat-c{border-top-color:#2e9e63;}
+  .fase-card.cat-c .fase-num{background:linear-gradient(135deg,#1f6b45,#2e9e63);}
+  .fase-card.cat-d{border-top-color:#2ba5b5;}
+  .fase-card.cat-d .fase-num{background:linear-gradient(135deg,#1d6f7a,#2ba5b5);}
+  .fase-card.cat-e{border-top-color:#5b3a8a;}
+  .fase-card.cat-e .fase-num{background:linear-gradient(135deg,#3a2f6b,#5b3a8a);}
+  .fase-card.cat-f{border-top-color:#a02b52;}
+  .fase-card.cat-f .fase-num{background:linear-gradient(135deg,#6b1f3a,#a02b52);}
+  .fase-icono{font-size:1.3rem;margin-right:6px;}
   .fase-titulo{font-weight:700;font-size:1rem;color:var(--azul-oscuro);}
   .fase-desc{font-size:.85rem;color:var(--texto-suave);flex:1;}
   .fase-estado{
@@ -170,50 +184,50 @@
   <h2 class="section-titulo">Metodología del curso — 6 fases</h2>
   <div class="fases" id="fases">
 
-    <a class="fase-card disponible" href="modulo-1-control-calidad.html" data-fase="1">
+    <a class="fase-card disponible cat-a" href="modulo-1-control-calidad.html" data-fase="1">
       <span class="fase-check">✓ Completado</span>
       <div class="fase-num">1</div>
-      <div class="fase-titulo">Sistema de Control de Calidad</div>
+      <div class="fase-titulo"><span class="fase-icono">🛡️</span>Sistema de Control de Calidad</div>
       <div class="fase-desc">NICC 1, NIA 200/210/230 · Los 6 elementos del control de calidad, requisitos éticos e independencia.</div>
       <span class="fase-estado disponible">Disponible</span>
     </a>
 
-    <a class="fase-card disponible" href="modulo-2-actividades-preliminares.html" data-fase="2">
+    <a class="fase-card disponible cat-b" href="modulo-2-actividades-preliminares.html" data-fase="2">
       <span class="fase-check">✓ Completado</span>
       <div class="fase-num">2</div>
-      <div class="fase-titulo">Actividades Preliminares</div>
+      <div class="fase-titulo"><span class="fase-icono">🗺️</span>Actividades Preliminares</div>
       <div class="fase-desc">NIA 300/200/220, NICC 1, IESBA 290–291 · Aceptación del cliente, términos del encargo, independencia.</div>
       <span class="fase-estado disponible">Disponible</span>
     </a>
 
-    <a class="fase-card disponible" href="modulo-3-evaluacion-procesos-clave.html" data-fase="3">
+    <a class="fase-card disponible cat-c" href="modulo-3-evaluacion-procesos-clave.html" data-fase="3">
       <span class="fase-check">✓ Completado</span>
       <div class="fase-num">3</div>
-      <div class="fase-titulo">Evaluación de Procesos Clave</div>
+      <div class="fase-titulo"><span class="fase-icono">🔍</span>Evaluación de Procesos Clave</div>
       <div class="fase-desc">NIA 240/265/315/330/402/500/501/530 · Entendimiento y evaluación de los procesos y controles clave de la entidad.</div>
       <span class="fase-estado disponible">Disponible</span>
     </a>
 
-    <a class="fase-card disponible" href="modulo-4-procedimientos-sustantivos.html" data-fase="4">
+    <a class="fase-card disponible cat-d" href="modulo-4-procedimientos-sustantivos.html" data-fase="4">
       <span class="fase-check">✓ Completado</span>
       <div class="fase-num">4</div>
-      <div class="fase-titulo">Procedimientos Sustantivos en Auditoría</div>
+      <div class="fase-titulo"><span class="fase-icono">📋</span>Procedimientos Sustantivos en Auditoría</div>
       <div class="fase-desc">NIA 315/240/200/500/330/505/520/530/540 · Pruebas sustantivas sobre los saldos y transacciones de los estados financieros.</div>
       <span class="fase-estado disponible">Disponible</span>
     </a>
 
-    <a class="fase-card disponible" href="modulo-5-cierre-auditoria.html" data-fase="5">
+    <a class="fase-card disponible cat-e" href="modulo-5-cierre-auditoria.html" data-fase="5">
       <span class="fase-check">✓ Completado</span>
       <div class="fase-num">5</div>
-      <div class="fase-titulo">Cierre de Auditoría</div>
+      <div class="fase-titulo"><span class="fase-icono">📊</span>Cierre de Auditoría</div>
       <div class="fase-desc">NIA 520/560/570/450/320/580 · Procedimientos de cierre, revisión final y consolidación de hallazgos.</div>
       <span class="fase-estado disponible">Disponible</span>
     </a>
 
-    <a class="fase-card disponible" href="modulo-6-dictamen-opinion.html" data-fase="6">
+    <a class="fase-card disponible cat-f" href="modulo-6-dictamen-opinion.html" data-fase="6">
       <span class="fase-check">✓ Completado</span>
       <div class="fase-num">6</div>
-      <div class="fase-titulo">Dictamen u Opinión del Auditor</div>
+      <div class="fase-titulo"><span class="fase-icono">📄</span>Dictamen u Opinión del Auditor</div>
       <div class="fase-desc">NIA 700/701/705/706/710/720 · Preparación del dictamen u opinión del auditor independiente.</div>
       <span class="fase-estado disponible">Disponible</span>
     </a>
